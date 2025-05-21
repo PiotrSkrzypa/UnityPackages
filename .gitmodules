@@ -1,0 +1,3 @@
+[submodule "Assets/UnityFX"]
+	path = Assets/UnityFX
+	url = https://github.com/PiotrSkrzypa/UnityFX.git
