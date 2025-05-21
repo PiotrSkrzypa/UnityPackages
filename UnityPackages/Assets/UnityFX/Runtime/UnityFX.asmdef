@@ -1,0 +1,22 @@
+{
+    "name": "UnityFX",
+    "rootNamespace": "PSkrzypa.UnityFX",
+    "references": [
+        "Unity.TextMeshPro",
+        "Unity.RenderPipelines.Core.Runtime",
+        "UnityEngine.UI",
+        "UniTask",
+        "Alchemy",
+        "LitMotion",
+        "LitMotion.Extensions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
