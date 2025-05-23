@@ -463,8 +463,7 @@ MonoBehaviour:
   timeScaleIndependent: 1
   forceTimeScaleSettingOnComponents: 1
   components:
-  - rid: 4184780224017727557
-  - rid: 4184780242541871603
+  - rid: 4184780266686644318
   OnPlay:
     m_PersistentCalls:
       m_Calls: []
@@ -477,42 +476,69 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4184780224017727557
+    - rid: 4184780266686644318
+      type: {class: FXSequence, ns: PSkrzypa.UnityFX, asm: UnityFX}
+      data:
+        playMode: 1
+        CanPlayWhenAlreadyPlaying: 0
+        Timing:
+          InitialDelay: 0
+          Duration: 2
+          CooldownDuration: 0
+          ContributeToTotalDuration: 1
+          TimeScaleIndependent: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 0
+          PlayCount: 0
+        components:
+        - rid: 4184780266686644319
+        - rid: 4184780266686644320
+        OnPlay:
+          m_PersistentCalls:
+            m_Calls: []
+        OnCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        OnCancelled:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4184780266686644319
       type: {class: PunchPositionTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
       data:
         CanPlayWhenAlreadyPlaying: 1
         Timing:
           InitialDelay: 0
-          Duration: 1.65
-          CooldownDuration: 0
-          ContributeToTotalDuration: 0
-          TimeScaleIndependent: 0
-          NumberOfRepeats: 1
-          RepeatForever: 0
-          DelayBetweenRepeats: 0
-          PlayCount: 0
-        transformToMove: {fileID: 1466969160}
-        useLocalSpace: 0
-        damping: 0.5
-        frequency: 10
-        ease: 0
-        punch: {x: 1, y: 0, z: 0}
-    - rid: 4184780242541871603
-      type: {class: PunchRotationTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
-      data:
-        CanPlayWhenAlreadyPlaying: 1
-        Timing:
-          InitialDelay: 0
-          Duration: 1.65
+          Duration: 2
           CooldownDuration: 0
           ContributeToTotalDuration: 1
           TimeScaleIndependent: 0
           NumberOfRepeats: 1
           RepeatForever: 0
           DelayBetweenRepeats: 0
-          PlayCount: 0
+          PlayCount: 11
+        transformToMove: {fileID: 1466969160}
+        useLocalSpace: 1
+        damping: 0.5
+        frequency: 10
+        ease: 0
+        punch: {x: 1, y: 0, z: 0}
+    - rid: 4184780266686644320
+      type: {class: PunchRotationTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+      data:
+        CanPlayWhenAlreadyPlaying: 1
+        Timing:
+          InitialDelay: 0
+          Duration: 1
+          CooldownDuration: 0
+          ContributeToTotalDuration: 1
+          TimeScaleIndependent: 0
+          NumberOfRepeats: 1
+          RepeatForever: 0
+          DelayBetweenRepeats: 0
+          PlayCount: 3
         transformToRotate: {fileID: 1466969160}
-        useLocalSpace: 0
+        useLocalSpace: 1
         damping: 0.5
         frequency: 10
         punch: {x: 0, y: 0, z: 45}
