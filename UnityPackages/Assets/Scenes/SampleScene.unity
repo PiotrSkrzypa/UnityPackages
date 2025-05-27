@@ -516,7 +516,7 @@ MonoBehaviour:
           NumberOfRepeats: 1
           RepeatForever: 0
           DelayBetweenRepeats: 0
-          PlayCount: 3
+          PlayCount: 4
         transformToMove: {fileID: 1466969160}
         useLocalSpace: 1
         damping: 0.5
