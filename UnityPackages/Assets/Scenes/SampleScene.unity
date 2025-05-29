@@ -550,20 +550,20 @@ MonoBehaviour:
       data:
         canPlayWhenAlreadyPlaying: 0
         reverseOnCancel: 1
-        reverseSpeedMultiplier: 1
+        reverseSpeedMultiplier: -5
         SequenceTiming:
           PlaybackSpeed: 1
           InitialDelay: 0
-          Duration: 3
+          Duration: 6
           CooldownDuration: 0
           ContributeToTotalDuration: 1
           TimeScaleIndependent: 0
-          NumberOfRepeats: 1
+          NumberOfRepeats: 2
           RepeatForever: 0
           DelayBetweenRepeats: 0
           PlayCount: 0
           playMode: 0
-          computedDuration: 3
+          computedDuration: 6
         components:
         - rid: 4184780402271715438
         - rid: 4184780402271715439
@@ -592,7 +592,7 @@ MonoBehaviour:
           NumberOfRepeats: 1
           RepeatForever: 0
           DelayBetweenRepeats: 0
-          PlayCount: 1
+          PlayCount: 0
         targetTransform: {fileID: 1466969160}
         startingScale: {x: 1, y: 1, z: 1}
         samplingResolution: 30
@@ -633,8 +633,17 @@ MonoBehaviour:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 1
+            time: 0.5
             value: 3
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
             inSlope: 0
             outSlope: 0
             tangentMode: 0
