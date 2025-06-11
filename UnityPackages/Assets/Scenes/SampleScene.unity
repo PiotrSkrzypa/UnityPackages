@@ -529,7 +529,7 @@ MonoBehaviour:
   playOnEnable: 0
   stopOnDisable: 0
   sequence:
-    rid: 4184780402271715433
+    rid: 9018569561917096019
   OnPlay:
     m_PersistentCalls:
       m_Calls: []
@@ -545,29 +545,28 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4184780402271715433
+    - rid: 9018569561917096019
       type: {class: FXSequence, ns: PSkrzypa.UnityFX, asm: UnityFX}
       data:
         canPlayWhenAlreadyPlaying: 0
         rewindOnCancel: 1
         playbackSpeedSettings:
           speed: 1
-          rewindSpeed: -5
+          rewindSpeed: -1
         SequenceTiming:
           InitialDelay: 0
-          Duration: 18
+          Duration: 1
           CooldownDuration: 0
           ContributeToTotalDuration: 1
           TimeScaleIndependent: 0
-          NumberOfRepeats: 3
+          NumberOfRepeats: 1
           RepeatForever: 0
           DelayBetweenRepeats: 0
-          PlayCount: 0
-          playMode: 1
-          computedDuration: 18
+          PlayCount: 3
+          playMode: 0
+          computedDuration: 1
         components:
-        - rid: 4184780402271715438
-        - rid: 4184780402271715439
+        - rid: 9018569561917096020
         OnPlay:
           m_PersistentCalls:
             m_Calls: []
@@ -577,17 +576,18 @@ MonoBehaviour:
         OnCancelled:
           m_PersistentCalls:
             m_Calls: []
-    - rid: 4184780402271715438
-      type: {class: CurveScaleTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+    - rid: 9018569561917096020
+      type: {class: MaterialPropertyBlockTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
       data:
         canPlayWhenAlreadyPlaying: 1
         rewindOnCancel: 1
         playbackSpeedSettings:
           speed: 1
           rewindSpeed: -1
+        easeType: 0
         Timing:
           InitialDelay: 0
-          Duration: 3
+          Duration: 1
           CooldownDuration: 0
           ContributeToTotalDuration: 1
           TimeScaleIndependent: 0
@@ -595,168 +595,15 @@ MonoBehaviour:
           RepeatForever: 0
           DelayBetweenRepeats: 0
           PlayCount: 1
-        targetTransform: {fileID: 1466969160}
-        startingScale: {x: 1, y: 1, z: 1}
-        samplingResolution: 30
-        xCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        yCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 0.5
-            value: 3
-            inSlope: 2.999918
-            outSlope: 2.999918
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        zCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        easeType: 0
-    - rid: 4184780402271715439
-      type: {class: CurveRotationTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+        meshRenderers:
+        - {fileID: 1466969158}
+        parametersToAnimate:
+        - rid: 9018569561917096021
+    - rid: 9018569561917096021
+      type: {class: MaterialPropertyBlockTweenAnimation/ColorParameter, ns: PSkrzypa.UnityFX, asm: UnityFX}
       data:
-        canPlayWhenAlreadyPlaying: 1
-        rewindOnCancel: 1
-        playbackSpeedSettings:
-          speed: 1
-          rewindSpeed: -1
-        Timing:
-          InitialDelay: 0
-          Duration: 3
-          CooldownDuration: 0
-          ContributeToTotalDuration: 1
-          TimeScaleIndependent: 0
-          NumberOfRepeats: 1
-          RepeatForever: 0
-          DelayBetweenRepeats: 0
-          PlayCount: 1
-        targetTransform: {fileID: 1466969160}
-        useLocalSpace: 1
-        startingRotation: {x: 0, y: 0, z: 0}
-        samplingResolution: 30
-        xCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        yCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        zCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 300
-            outSlope: 300
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 0.3
-            value: 90
-            inSlope: -99.999985
-            outSlope: -99.999985
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 0.66
-            value: -90
-            inSlope: -117.64703
-            outSlope: -117.64703
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 1
-            value: 0
-            inSlope: 264.7059
-            outSlope: 264.7059
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        easeType: 0
+        parameterName: _BaseColor
+        targetColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
