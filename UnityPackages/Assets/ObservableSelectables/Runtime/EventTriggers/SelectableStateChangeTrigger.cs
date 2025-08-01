@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,8 +7,19 @@ namespace PSkrzypa.ObservableSelectables.EventTriggers
 {
     public class SelectableStateChangeTrigger : MonoBehaviour
     {
-        [SerializeField] Dictionary<CustomSelectionState, List<EventToTrigger>> eventsToTrigger;
-        [SerializeField] IObservableSelectable observableSelectable;
+        [SerializeField]List<EventsToTriggerOnState> eventsToTrigger;
+        [SerializeField]IObservableSelectable observableSelectable;
+        Dictionary<CustomSelectionState, List<EventToTrigger>> eventsToTriggerDict;
+        CustomSelectionState lastSelectionState = CustomSelectionState.Normal;
+
+        private void Awake()
+        {
+            eventsToTriggerDict = new Dictionary<CustomSelectionState, List<EventToTrigger>>();
+            for (int i = 0; i < eventsToTrigger.Count; i++)
+            {
+                eventsToTriggerDict.TryAdd(eventsToTrigger[i].CustomSelectionState, eventsToTrigger[i].EventsList);
+            }
+        }
 
         private void OnEnable()
         {
@@ -27,7 +39,9 @@ namespace PSkrzypa.ObservableSelectables.EventTriggers
         }
         void OnSelectStateChange(CustomSelectionState selectionState)
         {
-            if (eventsToTrigger.TryGetValue(selectionState, out List<EventToTrigger> foundEvents))
+            if (lastSelectionState == selectionState)
+                return;
+            if (eventsToTriggerDict.TryGetValue(selectionState, out List<EventToTrigger> foundEvents))
             {
                 if (foundEvents == null)
                 {
@@ -38,6 +52,13 @@ namespace PSkrzypa.ObservableSelectables.EventTriggers
                     foundEvents[i]?.Invoke(new BaseEventData(EventSystem.current));
                 }
             }
+            lastSelectionState = selectionState;
         }
+    }
+    [Serializable]
+    public class EventsToTriggerOnState
+    {
+        public CustomSelectionState CustomSelectionState;
+        public List<EventToTrigger> EventsList;
     }
 }

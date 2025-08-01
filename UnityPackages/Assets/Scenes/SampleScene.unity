@@ -437,7 +437,7 @@ GameObject:
   - component: {fileID: 1466969160}
   - component: {fileID: 1466969159}
   - component: {fileID: 1466969158}
-  - component: {fileID: 1466969161}
+  - component: {fileID: 1466969163}
   m_Layer: 0
   m_Name: TestCube
   m_TagString: Untagged
@@ -513,7 +513,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1466969161
+--- !u!114 &1466969163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -522,88 +522,222 @@ MonoBehaviour:
   m_GameObject: {fileID: 1466969156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309b3183296df7b4aaa939146291c0b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 41d7d957afdcc004788d60ef65a0a170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playOnAwake: 0
   playOnEnable: 0
   stopOnDisable: 0
-  sequence:
-    rid: 9018569561917096019
-  OnPlay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStopped:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCancelled:
-    m_PersistentCalls:
-      m_Calls: []
+  fXSequence:
+    displayName: FXSequence
+    enabled: 1
+    settings:
+      sequencePlayMode: 1
+      loops: 3
+      timescaleIndependent: 1
+      forwardPlaybackSpeed: 1
+      backwardPlaybackSpeed: 2
+    components:
+    - rid: 214917238053666913
+    - rid: 214917352623439938
+    - rid: 214917510520373318
+    onComplete:
+      m_PersistentCalls:
+        m_Calls: []
   references:
     version: 2
     RefIds:
-    - rid: 9018569561917096019
-      type: {class: FXSequence, ns: PSkrzypa.UnityFX, asm: UnityFX}
+    - rid: 214917238053666913
+      type: {class: FXCurvePositionTweenAnimation, ns: PSkrzypa.UnityFX.V2, asm: UnityFX}
       data:
-        canPlayWhenAlreadyPlaying: 0
-        rewindOnCancel: 1
-        playbackSpeedSettings:
-          speed: 1
-          rewindSpeed: -1
-        SequenceTiming:
-          InitialDelay: 0
-          Duration: 1
-          CooldownDuration: 0
-          ContributeToTotalDuration: 1
-          TimeScaleIndependent: 0
-          NumberOfRepeats: 1
-          RepeatForever: 0
-          DelayBetweenRepeats: 0
-          PlayCount: 3
-          playMode: 0
-          computedDuration: 1
+        displayName: FXCurvePositionTweenAnimation
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 2
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
+        targetTransform: {fileID: 1466969160}
+        useLocalSpace: 1
+        startingPosition: {x: 0, y: 0, z: 0}
+        samplingResolution: 30
+        xPositionCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        yPositionCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 3.5963461
+            outSlope: 3.5963461
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.82333845
+            value: 2.96101
+            inSlope: 0.0848862
+            outSlope: 0.0848862
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.35458395
+            outWeight: 0.41447031
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -16.76092
+            outSlope: -16.76092
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        zPositionCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 214917352623439938
+      type: {class: FXCurveRotationAnimation, ns: PSkrzypa.UnityFX.V2, asm: UnityFX}
+      data:
+        displayName: FXCurveRotationAnimation
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 2
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
+        targetTransform: {fileID: 1466969160}
+        useLocalSpace: 1
+        startingRotation: {x: 0, y: 0, z: 0}
+        samplingResolution: 30
+        xCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        yCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        zCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 136.36363
+            outSlope: 136.36363
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.33
+            value: 45
+            inSlope: -1.0405574
+            outSlope: -1.0405574
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 1
+          - serializedVersion: 3
+            time: 0.66
+            value: -45
+            inSlope: 2.3790648
+            outSlope: 2.3790648
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.95860016
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 132.35295
+            outSlope: 132.35295
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 214917510520373318
+      type: {class: FXSequence, ns: PSkrzypa.UnityFX.V2, asm: UnityFX}
+      data:
+        displayName: FXSequenceNested
+        enabled: 0
+        settings:
+          sequencePlayMode: 0
+          loops: 1
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
         components:
-        - rid: 9018569561917096020
-        OnPlay:
+        - rid: 214917510520373321
+        - rid: 214917556042727512
+        onComplete:
           m_PersistentCalls:
             m_Calls: []
-        OnCompleted:
-          m_PersistentCalls:
-            m_Calls: []
-        OnCancelled:
-          m_PersistentCalls:
-            m_Calls: []
-    - rid: 9018569561917096020
-      type: {class: MaterialPropertyBlockTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+    - rid: 214917510520373321
+      type: {class: FXScaleAnimation, ns: PSkrzypa.UnityFX.V2, asm: UnityFX}
       data:
-        canPlayWhenAlreadyPlaying: 1
-        rewindOnCancel: 1
-        playbackSpeedSettings:
-          speed: 1
-          rewindSpeed: -1
-        easeType: 0
-        Timing:
-          InitialDelay: 0
-          Duration: 1
-          CooldownDuration: 0
-          ContributeToTotalDuration: 1
-          TimeScaleIndependent: 0
-          NumberOfRepeats: 1
-          RepeatForever: 0
-          DelayBetweenRepeats: 0
-          PlayCount: 1
+        displayName: Scale
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 1
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
+        transformToScale: {fileID: 1466969160}
+        targetScale: {x: 1.5, y: 1.5, z: 1.5}
+    - rid: 214917556042727512
+      type: {class: FXMaterialPropertyBlockColorAnimation, ns: PSkrzypa.UnityFX.V2, asm: UnityFX}
+      data:
+        displayName: Material Property Block Animation (Color)
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 1
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
         meshRenderers:
         - {fileID: 1466969158}
-        parametersToAnimate:
-        - rid: 9018569561917096021
-    - rid: 9018569561917096021
-      type: {class: MaterialPropertyBlockTweenAnimation/ColorParameter, ns: PSkrzypa.UnityFX, asm: UnityFX}
-      data:
-        parameterName: _BaseColor
-        targetColor: {r: 1, g: 0, b: 0, a: 1}
+        parameterToAnimate:
+          parameterName: _BaseColor
+          targetColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

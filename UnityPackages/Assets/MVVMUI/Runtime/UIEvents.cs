@@ -1,4 +1,4 @@
-﻿using PSkrzypa.MMVMUI.BaseMenuWindow;
+﻿using PSkrzypa.MVVMUI.BaseMenuWindow;
 using PSkrzypa.EventBus;
 using TMPro;
 using UnityEngine.Events;

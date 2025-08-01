@@ -3,7 +3,7 @@
 using UnityEditor;
 #endif
 
-namespace PSkrzypa.MMVMUI.BaseMenuWindow
+namespace PSkrzypa.MVVMUI.BaseMenuWindow
 {
     /// <summary>
     /// ScriptableObject that defines the configuration for a UI screen.

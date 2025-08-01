@@ -1,6 +1,6 @@
 ﻿using PSkrzypa.EventBus;
 
-namespace PSkrzypa.MMVMUI.Input.Events
+namespace PSkrzypa.MVVMUI.Input.Events
 {
 	public struct InputDeviceChangedEvent : IEvent
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using PSkrzypa.EventBus;
-using PSkrzypa.MMVMUI.Input.Events;
+using PSkrzypa.MVVMUI.Input.Events;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;

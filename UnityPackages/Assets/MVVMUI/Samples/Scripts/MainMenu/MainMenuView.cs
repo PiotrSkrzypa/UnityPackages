@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using R3;
 using System;
-using PSkrzypa.MMVMUI.BaseMenuWindow;
+using PSkrzypa.MVVMUI.BaseMenuWindow;
+using PSkrzypa.UnityFX;
 
 namespace PSkrzypa.MVVMUI.Samples
 {

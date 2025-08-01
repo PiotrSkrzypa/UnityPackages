@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using PSkrzypa.EventBus;
-using PSkrzypa.MMVMUI.BaseMenuWindow;
-using PSkrzypa.MMVMUI.Input.Events;
+using PSkrzypa.MVVMUI.BaseMenuWindow;
+using PSkrzypa.MVVMUI.Input.Events;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.Events;

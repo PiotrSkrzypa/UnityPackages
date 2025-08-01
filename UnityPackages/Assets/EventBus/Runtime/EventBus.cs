@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PSkrzypa.EventBus
 {
-    public class EventBus<T> where T : IEvent
+    public class EventBus<T> : IDisposable where T : IEvent
     {
         private HashSet<IEventListener<T>> _subscribers = new HashSet<IEventListener<T>>();
         public void Register(IEventListener<T> subscriber) => _subscribers.Add(subscriber);
@@ -24,6 +24,11 @@ namespace PSkrzypa.EventBus
         public void Clear()
         {
             _subscribers.Clear();
+        }
+
+        public void Dispose()
+        {
+            Clear();
         }
     }
 }

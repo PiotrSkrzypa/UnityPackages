@@ -6,17 +6,17 @@ using Zenject;
 using PSkrzypa.UnityFX;
 using PSkrzypa.EventBus;
 using PSkrzypa.MVVMUI.Input;
-using PSkrzypa.MVVMUI;
 using UnityEngine.Events;
-
-namespace PSkrzypa.MMVMUI.BaseMenuWindow
+using PSkrzypa.UnityFX.V2;
+using Alchemy.Inspector;
+namespace PSkrzypa.MVVMUI.BaseMenuWindow
 {
     [RequireComponent(typeof(Canvas), typeof(CanvasGroup), typeof(RectTransform))]
     [RequireComponent(typeof(ActionMap))]
     public abstract class BaseWindowView<T> : MonoBehaviour, IWindowView where T : BaseViewModel
     {
-        [SerializeField] FXPlayer openAnimation;
-        [SerializeField] FXPlayer closeAnimation;
+        [FoldoutGroup("Open Animation")][SerializeField]protected UnityFX.V2.FXSequence openAnimation;
+        [FoldoutGroup("Close Animation")][SerializeField]protected UnityFX.V2.FXSequence closeAnimation;
 
         [Inject] protected T viewModel;
         Canvas windowCanvas;
@@ -41,6 +41,10 @@ namespace PSkrzypa.MMVMUI.BaseMenuWindow
             viewModel.closeCommand.Subscribe(_ => CloseView()).AddTo(ref d);
             viewModel.HasFocus.Subscribe(hasFocus => actionMap.enabled = hasFocus).AddTo(ref d);
             disposable = d.Build();
+            if (viewModel.MenuWindowConfig.isInitialScreen)
+            {
+                GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = viewModel.MenuWindowConfig.windowID, isExclusive = true });
+            }
         }
         protected virtual void OnDestroy()
         {
@@ -54,7 +58,7 @@ namespace PSkrzypa.MMVMUI.BaseMenuWindow
             {
                 windowCanvas.enabled = true;
             }
-            if (closeAnimation != null && closeAnimation.IsPlaying)
+            if (closeAnimation != null)
             {
                 closeAnimation.Stop();
             }
@@ -67,7 +71,7 @@ namespace PSkrzypa.MMVMUI.BaseMenuWindow
         }
         public virtual void CloseView()
         {
-            if (openAnimation != null && openAnimation.IsPlaying)
+            if (openAnimation != null)
             {
                 openAnimation.Stop();
             }
@@ -77,7 +81,7 @@ namespace PSkrzypa.MMVMUI.BaseMenuWindow
             }
             if (closeAnimation != null)
             {
-                closeAnimation.OnCompleted.AddListener(OnCloseAnimationComplete());
+                closeAnimation.OnCompleteEvent.AddListener(OnCloseAnimationComplete());
                 closeAnimation.Play();
             }
             else

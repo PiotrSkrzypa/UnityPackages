@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 using PSkrzypa.EventBus;
-using PSkrzypa.MMVMUI.BaseMenuWindow;
+using PSkrzypa.MVVMUI.BaseMenuWindow;
 
 namespace PSkrzypa.MVVMUI
 {
