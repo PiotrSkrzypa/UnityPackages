@@ -4,7 +4,7 @@ namespace PSkrzypa.MVVMUI.Samples
 {
     public class MainMenuModel
     {
-        string SettingsWindowID = "settings";
+        string SettingsWindowID = "settingswindowconfig";
 
         public MainMenuModel()
         {
@@ -19,7 +19,7 @@ namespace PSkrzypa.MVVMUI.Samples
         }
         public void OpenSettings()
         {
-            GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = SettingsWindowID });
+            GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = SettingsWindowID, isExclusive = true });
         }
         void DeleteProgress()
         {

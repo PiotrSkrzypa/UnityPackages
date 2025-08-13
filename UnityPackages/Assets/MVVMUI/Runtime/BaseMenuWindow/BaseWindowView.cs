@@ -7,7 +7,6 @@ using PSkrzypa.UnityFX;
 using PSkrzypa.EventBus;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine.Events;
-using PSkrzypa.UnityFX.V2;
 using Alchemy.Inspector;
 namespace PSkrzypa.MVVMUI.BaseMenuWindow
 {
@@ -15,8 +14,8 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
     [RequireComponent(typeof(ActionMap))]
     public abstract class BaseWindowView<T> : MonoBehaviour, IWindowView where T : BaseViewModel
     {
-        [FoldoutGroup("Open Animation")][SerializeField]protected UnityFX.V2.FXSequence openAnimation;
-        [FoldoutGroup("Close Animation")][SerializeField]protected UnityFX.V2.FXSequence closeAnimation;
+        [FoldoutGroup("Open Animation")][SerializeField]protected FXSequence openAnimation;
+        [FoldoutGroup("Close Animation")][SerializeField]protected FXSequence closeAnimation;
 
         [Inject] protected T viewModel;
         Canvas windowCanvas;

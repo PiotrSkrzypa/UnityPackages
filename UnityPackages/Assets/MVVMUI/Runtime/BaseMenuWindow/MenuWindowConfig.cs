@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Alchemy.Inspector;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -21,6 +23,16 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
         /// Indicates whether this screen can be closed by the user.
         /// </summary>
         public bool canBeClosed = true;
+
+        /// <summary>
+        /// Indicates wheter this screen can be opened multiple times, allowing for multiple instances of the same screen.
+        /// </summary>
+        public bool allowMultipleInstances = false;
+
+        /// <summary>
+        /// Initl size of the pool for this window. This is used to optimize performance by reusing instances of the window.
+        /// </summary>
+        [ShowIf("allowMultipleInstances")]public int initialPoolSize = 1;
 
         /// <summary>
         /// Indicates whether this screen can be temporarily hidden, e.g. by dialogs UI.
