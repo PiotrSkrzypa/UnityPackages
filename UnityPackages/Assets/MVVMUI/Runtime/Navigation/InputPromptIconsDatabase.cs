@@ -5,12 +5,14 @@ using PSkrzypa.MVVMUI;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace PBG.UI
 {
     [CreateAssetMenu(menuName = "Input Prompt Icons Database")]
     public class InputPromptIconsDatabase : SingletonScriptableObject<InputPromptIconsDatabase>
     {
+        [Inject] InputDeviceObserver _inputDeviceObserver;
         InputPromptIconsSet[] inputPromptIconsSets;
         [ContextMenu("Refresh database")]
         public override void RefreshDatabase()
@@ -33,8 +35,7 @@ namespace PBG.UI
         {
             bool result = false;
             sprite = null;
-            InputDeviceObserver inputSystem = new InputDeviceObserver();
-            InputDeviceType activeInputDevice = inputSystem.ActiveDevice;
+            InputDeviceType activeInputDevice = _inputDeviceObserver.ActiveDevice;
             if (inputPromptIconsSets != null)
             {
                 InputPromptIconsSet inputPromptIconsSet = inputPromptIconsSets.FirstOrDefault(x=>x.inputDeviceType==activeInputDevice);

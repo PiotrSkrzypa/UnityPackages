@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using PSkrzypa.EventBus;
 using PSkrzypa.MVVMUI.Input.Events;
-using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
 
 namespace PSkrzypa.MVVMUI.Input
@@ -16,9 +15,13 @@ namespace PSkrzypa.MVVMUI.Input
         InputDeviceType activeDevice;
         string[] connectedGamepads;
         UnityEngine.InputSystem.InputDevice currentDevice;
+        IEventBus _eventBus;
+        ILogger _logger;
 
-        public InputDeviceObserver()
+        public InputDeviceObserver(IEventBus eventBus, ILogger logger)
         {
+            _eventBus = eventBus;
+            _logger = logger;
             Initialize();
         }
 
@@ -26,7 +29,7 @@ namespace PSkrzypa.MVVMUI.Input
         {
             connectedGamepads = UnityEngine.Input.GetJoystickNames();
             UnityEngine.InputSystem.InputSystem.onAnyButtonPress.Call(OnAnyButtonPressed);
-            GlobalEventBus<InputDeviceChangedEvent>.Raise(new InputDeviceChangedEvent() { inputDeviceType = activeDevice });
+            _eventBus.Publish(new InputDeviceChangedEvent() { inputDeviceType = activeDevice });
         }
         //private void OnGUI()
         //{
@@ -107,8 +110,8 @@ namespace PSkrzypa.MVVMUI.Input
         void SwitchInputDevice(InputDeviceType inputDeviceType)
         {
             activeDevice = inputDeviceType;
-            Debug.Log($"Input device changed to {activeDevice}");
-            GlobalEventBus<InputDeviceChangedEvent>.Raise(new InputDeviceChangedEvent() { inputDeviceType = activeDevice });
+            _logger.Log($"Input device changed to {activeDevice}");
+            _eventBus.Publish(new InputDeviceChangedEvent() { inputDeviceType = activeDevice });
         }
     }
     public enum InputDeviceType { MouseAndKeyboard = 0, XBoxGamepad = 1, Steamdeck = 2, DualSense = 3 }

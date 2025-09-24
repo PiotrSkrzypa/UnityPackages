@@ -12,17 +12,14 @@ namespace PSkrzypa.MVVMUI.Samples
 
         IDisposable disposable;
 
-        protected override void Awake()
+        protected override void OnViewModelBind()
         {
-            base.Awake();
             var d = Disposable.CreateBuilder();
             returnButton.OnClickAsObservable().Subscribe(_ => viewModel.CloseWindow()).AddTo(ref d);
-
             disposable = d.Build();
         }
-        protected override void OnDestroy()
+        protected override void OnDispose()
         {
-            base.OnDestroy();
             disposable?.Dispose();
         }
     }

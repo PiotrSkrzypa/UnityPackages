@@ -6,114 +6,64 @@ using PSkrzypa.MVVMUI.BaseMenuWindow;
 
 namespace PSkrzypa.MVVMUI
 {
-    public class MenuController : IDisposable, IEventListener<RegisterWindowEvent>, IEventListener<DeregisterWindowEvent>, IEventListener<OpenWindowEvent>, IEventListener<CloseWindowEvent>, IEventListener<CloseLastWindowEvent>, IEventListener<CloseAllWindowsEvent>
+    public class MenuController : IMenuController, IDisposable
     {
 
         Dictionary<string, IWindowViewModel> windowsDictionary = new Dictionary<string, IWindowViewModel>();
 
         [SerializeField] Stack<string> windowsHistory = new Stack<string>();
 
-        public MenuController()
+        IEventBus _eventBus;
+
+        public MenuController(IEventBus eventBus)
         {
-            GlobalEventBus<RegisterWindowEvent>.Register(this);
-            GlobalEventBus<DeregisterWindowEvent>.Register(this);
-            GlobalEventBus<OpenWindowEvent>.Register(this);
-            GlobalEventBus<CloseWindowEvent>.Register(this);
-            GlobalEventBus<CloseLastWindowEvent>.Register(this);
-            GlobalEventBus<CloseAllWindowsEvent>.Register(this);
+            _eventBus = eventBus;
         }
+      
         public void Dispose()
         {
-            GlobalEventBus<RegisterWindowEvent>.Deregister(this);
-            GlobalEventBus<DeregisterWindowEvent>.Deregister(this);
-            GlobalEventBus<OpenWindowEvent>.Deregister(this);
-            GlobalEventBus<CloseWindowEvent>.Deregister(this);
-            GlobalEventBus<CloseLastWindowEvent>.Deregister(this);
-            GlobalEventBus<CloseAllWindowsEvent>.Deregister(this);
-        }
-        public void OnEvent(OpenWindowEvent @event)
-        {
-            if (@event.isExclusive)
-            {
-                OpenWindowExclusive(@event.windowID);
-            }
-            else
-            {
-                OpenWindowAdditive(@event.windowID);
-            }
-        }
-        public void OnEvent(CloseWindowEvent @event)
-        {
-            CloseLastWindow();
-        }
-        public void OnEvent(CloseLastWindowEvent @event)
-        {
-
-        }
-        public void OnEvent(CloseAllWindowsEvent @event)
-        {
-            CloseAllWindows();
         }
 
-        public void OnEvent(RegisterWindowEvent @event)
+        public (bool, string) RegisterWindow(IWindowViewModel windowViewModel)
         {
-            AddMenuWindowToGlobalController(@event.windowViewModel);
-        }
-        public void OnEvent(DeregisterWindowEvent @event)
-        {
-            RemoveMenuWindowFromGlobalController(@event.windowViewModel);
-        }
-        bool AddMenuWindowToGlobalController(IWindowViewModel menuWindowPresenter)
-        {
-            if (!windowsDictionary.ContainsKey(menuWindowPresenter.MenuWindowConfig.windowID))
+            if (!windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
             {
-                windowsDictionary.Add(menuWindowPresenter.MenuWindowConfig.windowID, menuWindowPresenter);
-                return true;
+                // TODO give window unique ID
+                windowsDictionary.Add(windowViewModel.MenuWindowConfig.windowID, windowViewModel);
+                return (true, windowViewModel.MenuWindowConfig.windowID);
             }
             else
             {
                 //Debug.LogWarning($"Failed adding {menuWindowController.name} to Windows Dictionary, already contains window of type {menuWindowController.WindowType}");
-                return false;
+                return (false, string.Empty);
             }
         }
-        bool RemoveMenuWindowFromGlobalController(IWindowViewModel windowViewModel)
+
+        public void DeregisterWindow(IWindowViewModel windowViewModel)
         {
             if (windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
             {
                 windowsDictionary.Remove(windowViewModel.MenuWindowConfig.windowID);
-                return true;
             }
             else
             {
                 //Debug.LogWarning($"Failed removing {menuWindowController.name} from Windows Dictionary, it doesn't contain window of type {menuWindowController.WindowType}");
-                return false;
             }
         }
-        void OpenWindowAdditive(string windowType)
+
+        public void OpenWindow(string windowID, bool isExclusive, IWindowArgs windowArgs)
         {
-            if (!windowsDictionary.ContainsKey(windowType))
+            if (isExclusive)
             {
-                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
-                return;
+                OpenWindowExclusive(windowID, windowArgs);
             }
-            UnfocusCurrentWindow();
-            IWindowViewModel windowToOpen = windowsDictionary[windowType];
-            windowToOpen.ActivateWindow();
-            windowsHistory.Push(windowType);
-        }
-        void OpenWindowExclusive(string windowType)
-        {
-            if (!windowsDictionary.ContainsKey(windowType))
+            else
             {
-                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
-                return;
+                OpenWindowAdditive(windowID, windowArgs);
             }
-            UnfocusCurrentWindow();
-            IWindowViewModel windowToOpen = windowsDictionary[windowType];
-            windowToOpen.ActivateWindow();
-            windowsHistory.Push(windowType);
         }
-        void CloseLastWindow()
+
+        public void CloseWindow(string windowID)
         {
             if (windowsHistory.Count == 0)
             {
@@ -126,26 +76,71 @@ namespace PSkrzypa.MVVMUI
                 return;
             }
             IWindowViewModel windowToClose = windowsDictionary[windowType];
+            if (windowToClose.MenuWindowConfig.windowID != windowID)
+            {
+                return;
+            }
             if (windowToClose.MenuWindowConfig.isInitialScreen || !windowToClose.MenuWindowConfig.canBeClosed)
             {
                 return;
             }
             windowsHistory.Pop();
-            windowToClose.DeactivateWindow();
-            RefocusCurrentWindow();
+            windowToClose.CloseWindow();
+            FocusCurrentWindow();
         }
-        void CloseAllWindows()
+
+        public void CloseAllWindows()
         {
             while (windowsHistory.Count > 0)
             {
                 string windowName = windowsHistory.Pop();
                 if (windowsDictionary.TryGetValue(windowName, out IWindowViewModel windowViewModel))
                 {
-                    windowViewModel.DeactivateWindow();
+                    windowViewModel.CloseWindow();
                 }
             }
             windowsHistory.Clear();
         }
+
+        void OpenWindowAdditive(string windowType, IWindowArgs windowArgs)
+        {
+            if (!windowsDictionary.ContainsKey(windowType))
+            {
+                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
+                return;
+            }
+            UnfocusCurrentWindow();
+            IWindowViewModel windowToOpen = windowsDictionary[windowType];
+            windowToOpen.OpenWindow(windowArgs);
+            windowsHistory.Push(windowType);
+        }
+
+        void OpenWindowExclusive(string windowType, IWindowArgs windowArgs)
+        {
+            if (!windowsDictionary.ContainsKey(windowType))
+            {
+                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
+                return;
+            }
+            UnfocusCurrentWindow();
+            IWindowViewModel windowToOpen = windowsDictionary[windowType];
+            windowToOpen.OpenWindow(windowArgs);
+            windowsHistory.Push(windowType);
+        }
+
+        void FocusCurrentWindow()
+        {
+            if (windowsHistory.Count <= 0)
+            {
+                return;
+            }
+            string windowType = windowsHistory.Peek();
+            if (windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
+            {
+                windowToUnfocus.GainFocus();
+            }
+        }
+
         void UnfocusCurrentWindow()
         {
             if (windowsHistory.Count <= 0)
@@ -156,18 +151,6 @@ namespace PSkrzypa.MVVMUI
             if (windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
             {
                 windowToUnfocus.LooseFocus();
-            }
-        }
-        void RefocusCurrentWindow()
-        {
-            if (windowsHistory.Count <= 0)
-            {
-                return;
-            }
-            string windowType = windowsHistory.Peek();
-            if (windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
-            {
-                windowToUnfocus.GainFocus();
             }
         }
     }

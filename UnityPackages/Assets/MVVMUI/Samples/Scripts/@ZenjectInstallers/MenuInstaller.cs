@@ -8,12 +8,12 @@ namespace PSkrzypa.MVVMUI.Samples
     {
         [SerializeField] MenuWindowConfig mainMenuConfig;
         [SerializeField] MenuWindowConfig settingsMenuConfig;
+        [SerializeField] MenuWindowConfig dialogWindowConfig;
         public override void InstallBindings()
         {
-            Container.Bind<MainMenuViewModel>().AsTransient().WithArguments(mainMenuConfig);
-            Container.Bind<MainMenuModel>().AsTransient();
-            Container.Bind<SettingsViewModel>().AsTransient().WithArguments(settingsMenuConfig);
-            Container.Bind<SettingsModel>().AsTransient();
+            Container.InstallWindow<MainMenuViewModel, MainMenuModel>(mainMenuConfig);
+            Container.InstallWindow<SettingsViewModel, SettingsModel>(settingsMenuConfig);
+            Container.InstallWindow<DialogWindowViewModel, DialogWindowModel>(dialogWindowConfig);
         }
     }
 }

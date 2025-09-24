@@ -2,7 +2,7 @@
 
 namespace PSkrzypa.MVVMUI.Input.Events
 {
-	public struct InputDeviceChangedEvent : IEvent
+	public struct InputDeviceChangedEvent : IEventPayload
 	{
 		public MVVMUI.Input.InputDeviceType inputDeviceType;
 	} 

@@ -16,21 +16,18 @@ namespace PSkrzypa.MVVMUI.Samples
 
         IDisposable disposable;
 
-        protected override void Awake()
+        protected override void OnViewModelBind()
         {
-            base.Awake();
             var d = Disposable.CreateBuilder();
             viewModel.ProgressExists.Subscribe(x => continueButton.interactable = x).AddTo(ref d);
             newGameButton.OnClickAsObservable().Subscribe(_ => viewModel.StartNewGame.Execute(Unit.Default)).AddTo(ref d);
             continueButton.OnClickAsObservable().Subscribe(_ => viewModel.ContinueSavedGame.Execute(Unit.Default)).AddTo(ref d);
             settingsButton.OnClickAsObservable().Subscribe(_ => viewModel.OpenSettingsWindow.Execute(Unit.Default)).AddTo(ref d);
             quitGameButton.OnClickAsObservable().Subscribe(_ => viewModel.QuitGameCommand.Execute(Unit.Default)).AddTo(ref d);
-
             disposable = d.Build();
         }
-        protected override void OnDestroy()
+        protected override void OnDispose()
         {
-            base.OnDestroy();
             disposable?.Dispose();
         }
     }

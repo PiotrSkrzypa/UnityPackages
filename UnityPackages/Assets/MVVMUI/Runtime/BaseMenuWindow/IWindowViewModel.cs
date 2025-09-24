@@ -3,8 +3,8 @@
     public interface IWindowViewModel
     {
         MenuWindowConfig MenuWindowConfig { get; }
-        void ActivateWindow();
-        void DeactivateWindow();
+        void OpenWindow(IWindowArgs windowArgs);
+        void CloseWindow();
         void GainFocus();
         void LooseFocus();
     }

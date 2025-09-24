@@ -9,10 +9,11 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Zenject;
 
 namespace PBG.UI
 {
-    public class NavigationGroup : MonoBehaviour, IEventListener<InputDeviceChangedEvent>
+    public class NavigationGroup : MonoBehaviour
     {
         public static UnityAction<NavigationGroup> OnNavigationGroupStateChange;
         [SerializeField] Selectable elementToSelectOnActivation;
@@ -43,6 +44,8 @@ namespace PBG.UI
         Stack<bool> rememberedActiveStates;
         bool initialized;
 
+        [Inject] InputDeviceObserver inputDeviceObserver;
+
         public bool GroupIsActive { get => groupIsActive; }
         public bool TurnOffOtherGroups { get => turnOffOtherGroups; set => turnOffOtherGroups = value; }
         public bool LimitNavigationToNavGroup { get => limitNavigationToNavGroup; set => limitNavigationToNavGroup = value; }
@@ -67,7 +70,6 @@ namespace PBG.UI
             {
                 ActivateNavigationGroup();
             }
-            GlobalEventBus<InputDeviceChangedEvent>.Register(this);
         }
         private void OnDisable()
         {
@@ -75,7 +77,6 @@ namespace PBG.UI
             {
                 DeactivateNavigationGroup();
             }
-            GlobalEventBus<InputDeviceChangedEvent>.Deregister(this);
         }
         private void OnDestroy()
         {
@@ -83,10 +84,6 @@ namespace PBG.UI
             {
                 OnNavigationGroupStateChange -= ReactForOtherGroupStateChange;
             }
-        }
-        public void OnEvent(InputDeviceChangedEvent @event)
-        {
-            OnInputDeviceChanged(@event.inputDeviceType);
         }
         private void ReactForOtherGroupStateChange(NavigationGroup otherGroup)
         {
@@ -175,7 +172,6 @@ namespace PBG.UI
         private IEnumerator SelectElementOnActivation()
         {
             yield return null;
-            InputDeviceObserver inputDeviceObserver = new InputDeviceObserver();
             if (elementToSelectOnActivation != null && inputDeviceObserver.ActiveDevice != InputDeviceType.MouseAndKeyboard)
             {
                 Selectable elementToSelect = elementToSelectOnActivation;
@@ -381,7 +377,6 @@ namespace PBG.UI
             {
                 return;
             }
-            InputDeviceObserver inputDeviceObserver = new InputDeviceObserver();
             if (inputDeviceObserver.ActiveDevice == InputDeviceType.MouseAndKeyboard)
             {
                 return;

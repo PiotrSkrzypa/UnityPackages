@@ -5,45 +5,56 @@ using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Zenject;
 
 namespace PBG.UI
 {
-    public class InputPrompt : MonoBehaviour, IEventListener<InputDeviceChangedEvent>
+    public class InputPrompt : MonoBehaviour
     {
-        [SerializeField] InputActionReference actionReference;
-        [SerializeField] Image image;
-        [SerializeField] bool turnOffImageGameObjectIfEmpty;
-        [SerializeField] bool ignoreParentNavigationGroupActiveState;
-        Color promptColor = new Color(1f,0.9382353f,0.85f);
-        NavigationGroup navigationGroup;
-        bool interactable = true;
-        bool rememberedInteractableState = true;
+        [SerializeField] InputActionReference _actionReference;
+        [SerializeField] Image _image;
+        [SerializeField] bool _turnOffImageGameObjectIfEmpty;
+        [SerializeField] bool _ignoreParentNavigationGroupActiveState;
+        Color _promptColor = new Color(1f,0.9382353f,0.85f);
+        NavigationGroup _navigationGroup;
+        bool _interactable = true;
+        bool _rememberedInteractableState = true;
 
-        InputDeviceObserver inputDeviceObserver;
+        [Inject]private IEventBus _eventBus;
 
+        private void Awake()
+        {
+            _eventBus.Subscribe<InputDeviceChangedEvent>(OnInputDeviceChangeEvent);
+        }
         private void OnEnable()
         {
-            GlobalEventBus<InputDeviceChangedEvent>.Register(this);
         }
         private void OnDisable()
         {
-            GlobalEventBus<InputDeviceChangedEvent>.Deregister(this);
+        }
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<InputDeviceChangedEvent>(OnInputDeviceChangeEvent);
+            if (_navigationGroup != null && !_ignoreParentNavigationGroupActiveState)
+            {
+                _navigationGroup.onGroupActivated.RemoveListener(OnParentGroupActivated);
+                _navigationGroup.onGroupDeactivated.RemoveListener(OnParentGroupDeactivated);
+            }
         }
         private void Start()
         {
-            inputDeviceObserver = new InputDeviceObserver();
-            if (image == null)
+            if (_image == null)
             {
-                image = GetComponent<Image>();
+                _image = GetComponent<Image>();
             }
-            image.color = promptColor;
-            navigationGroup = GetComponentsInParent<NavigationGroup>(true)?.FirstOrDefault();
-            if (navigationGroup != null && !ignoreParentNavigationGroupActiveState)
+            _image.color = _promptColor;
+            _navigationGroup = GetComponentsInParent<NavigationGroup>(true)?.FirstOrDefault();
+            if (_navigationGroup != null && !_ignoreParentNavigationGroupActiveState)
             {
-                navigationGroup.onGroupActivated.AddListener(OnParentGroupActivated);
-                navigationGroup.onGroupDeactivated.AddListener(OnParentGroupDeactivated);
-                rememberedInteractableState = interactable;
-                if (navigationGroup.GroupIsActive)
+                _navigationGroup.onGroupActivated.AddListener(OnParentGroupActivated);
+                _navigationGroup.onGroupDeactivated.AddListener(OnParentGroupDeactivated);
+                _rememberedInteractableState = _interactable;
+                if (_navigationGroup.GroupIsActive)
                 {
                     OnParentGroupActivated();
                 }
@@ -52,61 +63,59 @@ namespace PBG.UI
                     OnParentGroupDeactivated();
                 }
             }
-            OnInputDeviceChange(inputDeviceObserver.ActiveDevice);
         }
 
-        public void OnEvent(InputDeviceChangedEvent @event)
-        {
-            OnInputDeviceChange(@event.inputDeviceType);
-        }
         private void OnParentGroupActivated()
         {
-            SetInteractableState(rememberedInteractableState);
+            SetInteractableState(_rememberedInteractableState);
         }
         private void OnParentGroupDeactivated()
         {
-            rememberedInteractableState = interactable;
+            _rememberedInteractableState = _interactable;
             SetInteractableState(false);
+        }
+        private void OnInputDeviceChangeEvent(InputDeviceChangedEvent inputDeviceChangedEvent)
+        {
+            OnInputDeviceChange(inputDeviceChangedEvent.inputDeviceType);
         }
         private void OnInputDeviceChange(InputDeviceType inputDevice)
         {
             InputPromptIconsDatabase inputPromptIconsDatabase = InputPromptIconsDatabase.Instance;
-            if (actionReference != null)
+            if (_actionReference != null)
             {
-                if (inputPromptIconsDatabase.TryGetInputPromptSprite(actionReference, out Sprite sprite))
+                if (inputPromptIconsDatabase.TryGetInputPromptSprite(_actionReference, out Sprite sprite))
                 {
                     if (sprite != null)
                     {
-                        image.sprite = sprite;
-                        image.enabled = true;
+                        _image.sprite = sprite;
+                        _image.enabled = true;
                     }
                     else
                     {
-                        image.enabled = false;
+                        _image.enabled = false;
                     }
                 }
                 else
                 {
-                    image.enabled = false;
+                    _image.enabled = false;
                 }
             }
-            if (!interactable)
+            if (!_interactable)
             {
-                image.enabled = false;
+                _image.enabled = false;
             }
-            if (!image.enabled && turnOffImageGameObjectIfEmpty)
+            if (!_image.enabled && _turnOffImageGameObjectIfEmpty)
             {
-                image.gameObject.SetActive(false);
+                _image.gameObject.SetActive(false);
             }
-            else if (!image.gameObject.activeInHierarchy)
+            else if (!_image.gameObject.activeInHierarchy)
             {
-                image.gameObject.SetActive(true);
+                _image.gameObject.SetActive(true);
             }
         }
         public void SetInteractableState(bool value)
         {
-            interactable = value;
-            OnInputDeviceChange(inputDeviceObserver.ActiveDevice);
+            _interactable = value;
         }
 
     }

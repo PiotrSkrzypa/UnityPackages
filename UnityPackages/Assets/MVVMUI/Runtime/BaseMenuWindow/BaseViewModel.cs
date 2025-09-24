@@ -1,12 +1,12 @@
 ﻿using System;
 using PSkrzypa.EventBus;
-using PSkrzypa.MVVMUI;
 using R3;
 
 namespace PSkrzypa.MVVMUI.BaseMenuWindow
 {
     public abstract class BaseViewModel : IWindowViewModel, IDisposable
     {
+        protected IMenuController menuController;
         protected MenuWindowConfig menuWindowConfig;
         public ReactiveCommand openCommand = new ReactiveCommand();
         public ReactiveCommand closeCommand = new ReactiveCommand();
@@ -18,52 +18,31 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
         #endregion
 
 
-        public BaseViewModel(MenuWindowConfig menuWindowConfig)
+        public BaseViewModel(IMenuController menuController, MenuWindowConfig menuWindowConfig)
         {
+            this.menuController = menuController;
             this.menuWindowConfig = menuWindowConfig;
             Register();
         }
         public virtual void Register()
         {
-            GlobalEventBus<RegisterWindowEvent>.Raise(new RegisterWindowEvent { windowViewModel = this });
+            menuController.RegisterWindow(this);
         }
         public virtual void Dispose()
         {
-            GlobalEventBus<DeregisterWindowEvent>.Raise(new DeregisterWindowEvent { windowViewModel = this });
+            menuController.DeregisterWindow(this);
             openCommand?.Dispose();
             closeCommand?.Dispose();
         }
-        protected virtual void OpenWindowExclusive()
+        public virtual void OpenWindow(IWindowArgs windowArgs = null)
         {
-            GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = menuWindowConfig.windowID, isExclusive = true });
-        }
-        protected virtual void OpenWindowAdditive()
-        {
-            GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = menuWindowConfig.windowID, isExclusive = false });
-        }
-        public virtual void ActivateWindow()
-        {
-            GlobalEventBus<WindowOpenedEvent>.Raise(new WindowOpenedEvent() { windowID = menuWindowConfig.windowID });
             openCommand.Execute(Unit.Default);
             GainFocus();
         }
-        public virtual void DeactivateWindow()
-        {
-            GlobalEventBus<WindowClosedEvent>.Raise(new WindowClosedEvent() { windowID = menuWindowConfig.windowID });
-            closeCommand.Execute(Unit.Default);
-            LooseFocus();
-        }
         public virtual void CloseWindow()
         {
-            GlobalEventBus<CloseWindowEvent>.Raise(new CloseWindowEvent() { windowID = menuWindowConfig.windowID });
-        }
-        public virtual void CloseAllWindows()
-        {
-            GlobalEventBus<CloseAllWindowsEvent>.Raise(new CloseAllWindowsEvent());
-        }
-        public virtual void CloseLastWindow()
-        {
-            GlobalEventBus<CloseLastWindowEvent>.Raise(new CloseLastWindowEvent());
+            closeCommand.Execute(Unit.Default);
+            LooseFocus();
         }
 
         public void GainFocus()
@@ -75,5 +54,6 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
         {
             HasFocus.Value = false;
         }
+
     }
 }

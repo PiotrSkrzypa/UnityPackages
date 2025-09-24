@@ -15,7 +15,7 @@ namespace PSkrzypa.MVVMUI.Samples
         MainMenuModel model;
         IDisposable disposable;
 
-        public MainMenuViewModel(MenuWindowConfig menuWindowConfig, MainMenuModel model) : base(menuWindowConfig)
+        public MainMenuViewModel(IMenuController menuController, MenuWindowConfig menuWindowConfig, MainMenuModel model) : base(menuController, menuWindowConfig)
         {
             this.menuWindowConfig = menuWindowConfig;
             this.model = model;
@@ -29,16 +29,8 @@ namespace PSkrzypa.MVVMUI.Samples
             OpenSettingsWindow = new ReactiveCommand();
             OpenSettingsWindow.Subscribe(_ => model.OpenSettings()).AddTo(ref d);
             QuitGameCommand = new ReactiveCommand();
-            QuitGameCommand.Subscribe(_ => QuitGame()).AddTo(ref d);
+            QuitGameCommand.Subscribe(_ => model.QuitGame()).AddTo(ref d);
             disposable = d.Build();
-        }
-        void QuitGame()
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
         }
         public override void Dispose()
         {

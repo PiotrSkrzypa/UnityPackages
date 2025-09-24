@@ -5,12 +5,14 @@ using PSkrzypa.MVVMUI.Input;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace PSkrzypa.ObservableSelectables
 {
     public class ObservableTMPInputField : TMP_InputField, IObservableSelectable
     {
         UnityAction<CustomSelectionState> onStateChanged;
+        [Inject] InputDeviceObserver _inputDeviceObserver;
 
         protected override void DoStateTransition(SelectionState state, bool instant)
         {
@@ -72,8 +74,7 @@ namespace PSkrzypa.ObservableSelectables
             base.OnSelect(eventData);
             SendOnFocus();
 
-            InputDeviceObserver inputDeviceObserver = new InputDeviceObserver();
-            if (inputDeviceObserver.ActiveDevice == InputDeviceType.MouseAndKeyboard)
+            if (_inputDeviceObserver.ActiveDevice == InputDeviceType.MouseAndKeyboard)
             {
                 ActivateInputField();
             }
@@ -85,7 +86,7 @@ namespace PSkrzypa.ObservableSelectables
         IEnumerator OpenVirtualKeyboardNextFrame()
         {
             yield return null;
-            GlobalEventBus<OpenVirtualKeyboard>.Raise(new OpenVirtualKeyboard { inputField = this });
+            //GlobalEventBus<OpenVirtualKeyboard>.Raise(new OpenVirtualKeyboard { inputField = this });
         }
     }
 }

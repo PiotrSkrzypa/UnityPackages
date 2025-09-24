@@ -4,23 +4,25 @@ using PSkrzypa.MVVMUI.Input.Events;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace PSkrzypa.ObservableSelectables.EventTriggers
 {
-    public class InputDeviceChangeTrigger : MonoBehaviour, IEventListener<InputDeviceChangedEvent>
+    public class InputDeviceChangeTrigger : MonoBehaviour
     {
-        [SerializeField] List<InputDeviceType> observedInputDevices;
-        [SerializeField] List<EventToTrigger> eventsOnExpectedDeviceDetected;
-        [SerializeField] List<EventToTrigger> eventsOnUnexpectedDeviceDetected;
+        [SerializeField] List<InputDeviceType> _observedInputDevices;
+        [SerializeField] List<EventToTrigger> _eventsOnExpectedDeviceDetected;
+        [SerializeField] List<EventToTrigger> _eventsOnUnexpectedDeviceDetected;
 
-        InputDeviceObserver inputDeviceObserver;
+        InputDeviceObserver _inputDeviceObserver;
+        [Inject]IEventBus _eventBus;
 
         private void Awake()
         {
-            GlobalEventBus<InputDeviceChangedEvent>.Register(this);
-            if (inputDeviceObserver != null)
+            _eventBus.Subscribe<InputDeviceChangedEvent>(OnInputDeviceChangeEvent);
+            if (_inputDeviceObserver != null)
             {
-                OnInputDeviceChange(inputDeviceObserver.ActiveDevice);
+                OnInputDeviceChange(_inputDeviceObserver.ActiveDevice);
             }
             else
             {
@@ -29,36 +31,36 @@ namespace PSkrzypa.ObservableSelectables.EventTriggers
         }
         private void OnDestroy()
         {
-            GlobalEventBus<InputDeviceChangedEvent>.Deregister(this);
+            _eventBus.Unsubscribe<InputDeviceChangedEvent>(OnInputDeviceChangeEvent);
         }
-        public void OnEvent(InputDeviceChangedEvent @event)
+        private void OnInputDeviceChangeEvent(InputDeviceChangedEvent inputDeviceChangedEvent)
         {
-            OnInputDeviceChange(@event.inputDeviceType);
+            OnInputDeviceChange(inputDeviceChangedEvent.inputDeviceType);
         }
         void OnInputDeviceChange(InputDeviceType inputDeviceType)
         {
-            if (observedInputDevices == null)
+            if (_observedInputDevices == null)
             {
                 enabled = false;
                 return;
             }
-            if (observedInputDevices.Contains(inputDeviceType))
+            if (_observedInputDevices.Contains(inputDeviceType))
             {
-                if (eventsOnExpectedDeviceDetected != null)
+                if (_eventsOnExpectedDeviceDetected != null)
                 {
-                    for (int i = 0; i < eventsOnExpectedDeviceDetected.Count; i++)
+                    for (int i = 0; i < _eventsOnExpectedDeviceDetected.Count; i++)
                     {
-                        eventsOnExpectedDeviceDetected[i]?.Invoke(new BaseEventData(EventSystem.current));
+                        _eventsOnExpectedDeviceDetected[i]?.Invoke(new BaseEventData(EventSystem.current));
                     }
                 }
             }
             else
             {
-                if (eventsOnUnexpectedDeviceDetected != null)
+                if (_eventsOnUnexpectedDeviceDetected != null)
                 {
-                    for (int i = 0; i < eventsOnUnexpectedDeviceDetected.Count; i++)
+                    for (int i = 0; i < _eventsOnUnexpectedDeviceDetected.Count; i++)
                     {
-                        eventsOnUnexpectedDeviceDetected[i]?.Invoke(new BaseEventData(EventSystem.current));
+                        _eventsOnUnexpectedDeviceDetected[i]?.Invoke(new BaseEventData(EventSystem.current));
                     }
                 }
             }

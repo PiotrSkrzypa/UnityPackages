@@ -17,7 +17,7 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
         [FoldoutGroup("Open Animation")][SerializeField]protected FXSequence openAnimation;
         [FoldoutGroup("Close Animation")][SerializeField]protected FXSequence closeAnimation;
 
-        [Inject] protected T viewModel;
+        protected T viewModel;
         Canvas windowCanvas;
         CanvasGroup windowCanvasGroup;
         RectTransform rectTransform;
@@ -26,9 +26,19 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
 
         IDisposable disposable;
 
-        protected virtual void Awake()
+        [Inject]
+        void BindViewModel(T viewModel)
         {
+            this.viewModel = viewModel;
             var d = Disposable.CreateBuilder();
+            viewModel.openCommand.Subscribe(_ => OpenView()).AddTo(ref d);
+            viewModel.closeCommand.Subscribe(_ => CloseView()).AddTo(ref d);
+            disposable = d.Build();
+            OnViewModelBind();
+        }
+
+        void Awake()
+        {
             windowCanvas = GetComponent<Canvas>();
             windowCanvasGroup = GetComponent<CanvasGroup>();
             windowCanvas.enabled = false;
@@ -36,19 +46,27 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
             rectTransform = GetComponent<RectTransform>();
             actionMap = GetComponent<ActionMap>();
             actionMap.enabled = false;
-            viewModel.openCommand.Subscribe(_ => OpenView()).AddTo(ref d);
-            viewModel.closeCommand.Subscribe(_ => CloseView()).AddTo(ref d);
-            viewModel.HasFocus.Subscribe(hasFocus => actionMap.enabled = hasFocus).AddTo(ref d);
-            disposable = d.Build();
+            var d = viewModel.HasFocus.Subscribe(hasFocus => actionMap.enabled = hasFocus);
+            disposable = Disposable.Combine(disposable, d);
             if (viewModel.MenuWindowConfig.isInitialScreen)
             {
-                GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = viewModel.MenuWindowConfig.windowID, isExclusive = true });
+                viewModel.OpenWindow();
             }
         }
-        protected virtual void OnDestroy()
+
+        void OnDestroy()
         {
             disposable?.Dispose();
             windowCanvasGroup.DOKill();
+            OnDispose();
+        }
+
+        protected virtual void OnViewModelBind()
+        {
+        }
+
+        protected virtual void OnDispose()
+        {
         }
 
         public virtual void OpenView()
@@ -94,7 +112,7 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
             return () =>
             {
                 SetViewInteractable(false);
-                GlobalEventBus<WindowClosedEvent>.Raise(new WindowClosedEvent() { windowID = "" });
+                //GlobalEventBus<WindowClosedEvent>.Raise(new WindowClosedEvent() { windowID = "" });
                 if (windowCanvas != null)
                 {
                     windowCanvas.enabled = false;

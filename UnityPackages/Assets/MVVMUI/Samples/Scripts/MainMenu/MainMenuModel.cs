@@ -1,13 +1,16 @@
-﻿using PSkrzypa.EventBus;
+﻿using PSkrzypa.MVVMUI.BaseMenuWindow;
 
 namespace PSkrzypa.MVVMUI.Samples
 {
-    public class MainMenuModel
+    public class MainMenuModel : IWindowModel
     {
         string SettingsWindowID = "settingswindowconfig";
+        string DialogWindowID = "dialogwindowconfig";
+        IMenuController menuController;
 
-        public MainMenuModel()
+        public MainMenuModel(IMenuController menuController)
         {
+            this.menuController = menuController;
         }
 
         public void StartNewGame()
@@ -19,7 +22,26 @@ namespace PSkrzypa.MVVMUI.Samples
         }
         public void OpenSettings()
         {
-            GlobalEventBus<OpenWindowEvent>.Raise(new OpenWindowEvent { windowID = SettingsWindowID, isExclusive = true });
+            menuController.OpenWindow(SettingsWindowID, false, null);
+        }
+        public void QuitGame()
+        {
+            menuController.OpenWindow(DialogWindowID, false, new DialogWindowArgs()
+            {
+                message = "Are you sure you want to quit the game?",
+                confirmText = "Yes",
+                cancelText = "No",
+                confirmAction = () =>
+                {
+#if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+                },
+                cancelAction = null
+            });
+
         }
         void DeleteProgress()
         {

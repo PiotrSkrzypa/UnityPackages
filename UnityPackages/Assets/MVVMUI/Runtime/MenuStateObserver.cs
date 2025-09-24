@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace PSkrzypa.MVVMUI
 {
-    public class MenuStateObserver : MonoBehaviour, IEventListener<WindowOpenedEvent>
+    public class MenuStateObserver : MonoBehaviour
     {
         [SerializeField] MonoBehaviour[] componentsToControl;
         [SerializeField] List<string> disablingWindows;
@@ -14,10 +14,7 @@ namespace PSkrzypa.MVVMUI
         [SerializeField] UnityEvent onEnabling;
         bool disabled;
 
-        public void OnEvent(WindowOpenedEvent @event)
-        {
-            OnMenuStateChanged(@event.windowID);
-        }
+       
 
         private void Awake()
         {
@@ -25,11 +22,11 @@ namespace PSkrzypa.MVVMUI
             {
                 disablingWindows = new List<string>();
             }
-            GlobalEventBus<WindowOpenedEvent>.Register(this);
+            //GlobalEventBus<WindowOpenedEvent>.Register(this);
         }
         private void OnDestroy()
         {
-            GlobalEventBus<WindowOpenedEvent>.Deregister(this);
+            //GlobalEventBus<WindowOpenedEvent>.Deregister(this);
         }
         private void OnMenuStateChanged(string windowID)
         {

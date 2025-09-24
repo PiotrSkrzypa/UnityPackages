@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0.4, g: 0.4, b: 0.4, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -450,9 +450,9 @@ MonoBehaviour:
       forwardPlaybackSpeed: 1
       backwardPlaybackSpeed: 1
     components:
-    - rid: 6083339754581524548
-    - rid: 6083339754581524549
-    - rid: 6083339754581524552
+    - rid: 6083340117370994754
+    - rid: 6083340117370994755
+    - rid: 6083340117370994756
     - rid: 6083339754581524553
     - rid: 6083339754581524556
     onComplete:
@@ -461,60 +461,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6083339754581524548
-      type: {class: ColorImageTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
-      data:
-        displayName: BgColor
-        enabled: 1
-        settings:
-          delay: 0
-          delayType: 0
-          duration: 0.1
-          loops: 1
-          loopType: 0
-          ease: 0
-          timescaleIndependent: 0
-          forwardPlaybackSpeed: 1
-          backwardPlaybackSpeed: 1
-        imageToColor: {fileID: 5820799082990246816}
-        startColor: {r: 0, g: 0, b: 0, a: 1}
-        targetColor: {r: 0.9882353, g: 0.8666667, b: 0.07058824, a: 1}
-    - rid: 6083339754581524549
-      type: {class: FXColorTMPAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
-      data:
-        displayName: TextColor
-        enabled: 1
-        settings:
-          delay: 0
-          delayType: 0
-          duration: 0.1
-          loops: 1
-          loopType: 0
-          ease: 0
-          timescaleIndependent: 0
-          forwardPlaybackSpeed: 1
-          backwardPlaybackSpeed: 1
-        textToColor: {fileID: 3704161337293795037}
-        startColor: {r: 1, g: 1, b: 1, a: 1}
-        targetColor: {r: 0, g: 0, b: 0, a: 1}
-    - rid: 6083339754581524552
-      type: {class: ColorImageTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
-      data:
-        displayName: OutlineColor
-        enabled: 1
-        settings:
-          delay: 0
-          delayType: 0
-          duration: 0.1
-          loops: 1
-          loopType: 0
-          ease: 0
-          timescaleIndependent: 0
-          forwardPlaybackSpeed: 1
-          backwardPlaybackSpeed: 1
-        imageToColor: {fileID: 360470370756084278}
-        startColor: {r: 0, g: 0, b: 0, a: 0}
-        targetColor: {r: 0, g: 0, b: 0, a: 1}
     - rid: 6083339754581524553
       type: {class: FXPunchRotationAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
       data:
@@ -543,3 +489,57 @@ MonoBehaviour:
         audioClip: {fileID: 8300000, guid: 84705ea95b7a4b64d98072a51942a1b4, type: 3}
         uiAudioClipKey: 
         isUISound: 0
+    - rid: 6083340117370994754
+      type: {class: ColorImageTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+      data:
+        displayName: BgColor
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 0.1
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
+        imageToColor: {fileID: 5820799082990246816}
+        startColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+        targetColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+    - rid: 6083340117370994755
+      type: {class: FXColorTMPAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+      data:
+        displayName: TextColor
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 0.1
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
+        textToColor: {fileID: 3704161337293795037}
+        startColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+        targetColor: {r: 0.95, g: 0.95, b: 0.95, a: 1}
+    - rid: 6083340117370994756
+      type: {class: ColorImageTweenAnimation, ns: PSkrzypa.UnityFX, asm: UnityFX}
+      data:
+        displayName: OutlineColor
+        enabled: 1
+        settings:
+          delay: 0
+          delayType: 0
+          duration: 0.1
+          loops: 1
+          loopType: 0
+          ease: 0
+          timescaleIndependent: 0
+          forwardPlaybackSpeed: 1
+          backwardPlaybackSpeed: 1
+        imageToColor: {fileID: 360470370756084278}
+        startColor: {r: 0.4, g: 0.4, b: 0.4, a: 0}
+        targetColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
