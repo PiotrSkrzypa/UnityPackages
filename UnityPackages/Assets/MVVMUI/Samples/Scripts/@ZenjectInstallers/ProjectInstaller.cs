@@ -1,5 +1,4 @@
 using PSkrzypa.EventBus;
-using UnityEngine;
 using Zenject;
 
 namespace PSkrzypa.MVVMUI.Samples
@@ -8,9 +7,9 @@ namespace PSkrzypa.MVVMUI.Samples
     {
         public override void InstallBindings()
         {
-            Container.Bind<IMenuController>().To<MenuController>().AsSingle().NonLazy();
-            Container.Bind<IThreadDispatcher>().To<MainThreadDispatcher>().AsSingle().NonLazy();
-            Container.Bind<IEventBus>().To<EventBus.EventBus>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<MenuController>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<MainThreadDispatcher>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EventBus.EventBus>().AsSingle().NonLazy();
         }
     }
 }
