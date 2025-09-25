@@ -1,3 +1,6 @@
 [submodule "UnityPackages/Assets/UnityFX"]
 	path = UnityPackages/Assets/UnityFX
 	url = https://github.com/PiotrSkrzypa/UnityFX.git
+[submodule "UnityPackages/Assets/EventBus"]
+	path = UnityPackages/Assets/EventBus
+	url = https://github.com/PiotrSkrzypa/EventBus.git
