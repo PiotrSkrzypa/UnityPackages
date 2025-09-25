@@ -1,0 +1,14 @@
+{
+  "name": "com.pskrzypa.eventbus",
+  "version": "1.0.0",
+  "displayName": "Event Bus",
+  "description": "Event Bus implementation that uses weak references for memory leaks avoidance and expression trees as alternative for reflection.",
+  "unity": "2022.1",
+  "dependencies": {
+ },
+  "author": {
+    "name": "Piotr Skrzypa",
+    "email": "skrzypapiotr144@gmail.com"
+  }
+}
+
