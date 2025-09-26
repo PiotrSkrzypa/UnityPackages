@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using PSkrzypa.ObservableSelectables.EventTriggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace PBG.UI
+namespace PSkrzypa.ObservableSelectables.EventTriggers
 {
     public class DeselectTrigger : MonoBehaviour, IDeselectHandler
     {

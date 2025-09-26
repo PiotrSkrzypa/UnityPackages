@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using PSkrzypa.EventBus;
-using PSkrzypa.MVVMUI;
 using PSkrzypa.MVVMUI.Input;
 using TMPro;
 using UnityEngine.Events;
