@@ -1,10 +1,8 @@
 ﻿using System;
-using DG.Tweening;
 using R3;
 using UnityEngine;
 using Zenject;
 using PSkrzypa.UnityFX;
-using PSkrzypa.EventBus;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine.Events;
 using Alchemy.Inspector;
@@ -57,7 +55,6 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
         void OnDestroy()
         {
             disposable?.Dispose();
-            windowCanvasGroup.DOKill();
             OnDispose();
         }
 
@@ -112,7 +109,6 @@ namespace PSkrzypa.MVVMUI.BaseMenuWindow
             return () =>
             {
                 SetViewInteractable(false);
-                //GlobalEventBus<WindowClosedEvent>.Raise(new WindowClosedEvent() { windowID = "" });
                 if (windowCanvas != null)
                 {
                     windowCanvas.enabled = false;
