@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PSkrzypa.MVVMUI;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-namespace PBG.UI
+namespace PSkrzypa.MVVMUI.Navigation
 {
     [CreateAssetMenu(menuName = "Input Prompt Icons Database")]
     public class InputPromptIconsDatabase : SingletonScriptableObject<InputPromptIconsDatabase>

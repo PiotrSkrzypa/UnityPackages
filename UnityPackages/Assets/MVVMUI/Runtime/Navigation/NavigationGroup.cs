@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using PSkrzypa.EventBus;
 using PSkrzypa.MVVMUI.BaseMenuWindow;
-using PSkrzypa.MVVMUI.Input.Events;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +9,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
-namespace PBG.UI
+namespace PSkrzypa.MVVMUI.Navigation
 {
     public class NavigationGroup : MonoBehaviour
     {
@@ -223,11 +221,11 @@ namespace PBG.UI
                 return false;
             }
             bool automaticNavigation = false;
-            if (elementToSelect.navigation.mode == Navigation.Mode.Explicit)
+            if (elementToSelect.navigation.mode == UnityEngine.UI.Navigation.Mode.Explicit)
             {
                 nextElementToSelect = elementToSelect.FindSelectableOnDown();
             }
-            else if (( elementToSelect.navigation.mode & Navigation.Mode.Vertical ) != 0)
+            else if (( elementToSelect.navigation.mode & UnityEngine.UI.Navigation.Mode.Vertical ) != 0)
             {
                 automaticNavigation = true;
                 nextElementToSelect = FindSelectable(elementToSelect, Vector3.down);
@@ -261,11 +259,11 @@ namespace PBG.UI
                 return false;
             }
             bool automaticNavigation = false;
-            if (elementToSelect.navigation.mode == Navigation.Mode.Explicit)
+            if (elementToSelect.navigation.mode == UnityEngine.UI.Navigation.Mode.Explicit)
             {
                 nextElementToSelect = elementToSelect.FindSelectableOnUp();
             }
-            else if (( elementToSelect.navigation.mode & Navigation.Mode.Vertical ) != 0)
+            else if (( elementToSelect.navigation.mode & UnityEngine.UI.Navigation.Mode.Vertical ) != 0)
             {
                 automaticNavigation = true;
                 nextElementToSelect = FindSelectable(elementToSelect, Vector3.up);
@@ -299,11 +297,11 @@ namespace PBG.UI
                 return false;
             }
             bool automaticNavigation = false;
-            if (elementToSelect.navigation.mode == Navigation.Mode.Explicit)
+            if (elementToSelect.navigation.mode == UnityEngine.UI.Navigation.Mode.Explicit)
             {
                 nextElementToSelect = elementToSelect.FindSelectableOnRight();
             }
-            if (( elementToSelect.navigation.mode & Navigation.Mode.Horizontal ) != 0)
+            if (( elementToSelect.navigation.mode & UnityEngine.UI.Navigation.Mode.Horizontal ) != 0)
             {
                 automaticNavigation = true;
                 nextElementToSelect = FindSelectable(elementToSelect, Vector3.right);
@@ -337,11 +335,11 @@ namespace PBG.UI
                 return false;
             }
             bool automaticNavigation = false;
-            if (elementToSelect.navigation.mode == Navigation.Mode.Explicit)
+            if (elementToSelect.navigation.mode == UnityEngine.UI.Navigation.Mode.Explicit)
             {
                 nextElementToSelect = elementToSelect.FindSelectableOnLeft();
             }
-            else if (( elementToSelect.navigation.mode & Navigation.Mode.Horizontal ) != 0)
+            else if (( elementToSelect.navigation.mode & UnityEngine.UI.Navigation.Mode.Horizontal ) != 0)
             {
                 automaticNavigation = true;
                 nextElementToSelect = FindSelectable(elementToSelect, Vector3.left);
@@ -613,7 +611,7 @@ namespace PBG.UI
                 if (sel == this)
                     continue;
 
-                if (sel.navigation.mode == Navigation.Mode.None)
+                if (sel.navigation.mode == UnityEngine.UI.Navigation.Mode.None)
                     continue;
                 if (limitNavigationToMenuWindow)
                 {

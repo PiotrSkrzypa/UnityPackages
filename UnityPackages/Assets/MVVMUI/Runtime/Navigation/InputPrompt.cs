@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 
-namespace PBG.UI
+namespace PSkrzypa.MVVMUI.Navigation
 {
     public class InputPrompt : MonoBehaviour
     {

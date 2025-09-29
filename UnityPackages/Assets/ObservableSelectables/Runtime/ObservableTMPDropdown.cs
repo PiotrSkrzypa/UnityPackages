@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PBG.UI;
+using PSkrzypa.MVVMUI.Navigation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;

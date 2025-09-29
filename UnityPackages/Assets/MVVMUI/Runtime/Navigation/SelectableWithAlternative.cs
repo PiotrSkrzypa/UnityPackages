@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PBG.UI
+namespace PSkrzypa.MVVMUI.Navigation
 {
     [Serializable]
     public class SelectableWithAlternative : MonoBehaviour

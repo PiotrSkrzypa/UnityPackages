@@ -1,0 +1,23 @@
+{
+    "name": "MVVMUI",
+    "rootNamespace": "",
+    "references": [
+        "EventBus",
+        "UnityFX",
+        "Alchemy",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "Logger",
+        "R3.Unity",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

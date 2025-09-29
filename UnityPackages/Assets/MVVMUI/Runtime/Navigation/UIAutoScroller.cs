@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace PBG.UI
+namespace PSkrzypa.MVVMUI.Navigation
 {
     [RequireComponent(typeof(ScrollRect))]
     public class UIAutoScroller : MonoBehaviour

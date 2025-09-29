@@ -1,0 +1,21 @@
+{
+    "name": "MVVMUI.Samples",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d1cdd3a2924cf4647891518eba5214b6",
+        "GUID:dcc4ee3565c982a4e9786ff540ef9617",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:c7dc76133129a0349908ffc0a999c567",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:77221876cc6b8244180b96e320b1bcd4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
