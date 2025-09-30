@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using PSkrzypa.EventBus;
 using PSkrzypa.MVVMUI.Input.Events;
+using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
 
 namespace PSkrzypa.MVVMUI.Input
@@ -16,12 +17,10 @@ namespace PSkrzypa.MVVMUI.Input
         string[] connectedGamepads;
         UnityEngine.InputSystem.InputDevice currentDevice;
         IEventBus _eventBus;
-        ILogger _logger;
 
-        public InputDeviceObserver(IEventBus eventBus, ILogger logger)
+        public InputDeviceObserver(IEventBus eventBus)
         {
             _eventBus = eventBus;
-            _logger = logger;
             Initialize();
         }
 
@@ -31,22 +30,7 @@ namespace PSkrzypa.MVVMUI.Input
             UnityEngine.InputSystem.InputSystem.onAnyButtonPress.Call(OnAnyButtonPressed);
             _eventBus.Publish(new InputDeviceChangedEvent() { inputDeviceType = activeDevice });
         }
-        //private void OnGUI()
-        //{
-        //    if (currentDevice != null)
-        //    {
-        //        connectedGamepads = UnityEngine.Input.GetJoystickNames();
-        //        GUI.Label(new Rect(300, 0, 100, 100), currentDevice.description.manufacturer);
-        //        GUI.Label(new Rect(300, 100, 100, 100), currentDevice.name);
-        //        GUI.Label(new Rect(300, 200, 100, 100), currentDevice.displayName);
-        //        GUI.Label(new Rect(300, 300, 200, 200), currentDevice.path);
-        //        GUI.Label(new Rect(300, 500, 200, 200), currentDevice.description.ToJson());
-        //        for (int i = 0; i < connectedGamepads.Length; i++)
-        //        {
-        //            GUI.Label(new Rect(300, 700 + 50 * i, 300, 100), connectedGamepads[i].ToString());
-        //        }
-        //    }
-        //}
+        
         private void OnAnyButtonPressed(UnityEngine.InputSystem.InputControl ctrl)
         {
             if (currentDevice == ctrl.device)
@@ -110,7 +94,7 @@ namespace PSkrzypa.MVVMUI.Input
         void SwitchInputDevice(InputDeviceType inputDeviceType)
         {
             activeDevice = inputDeviceType;
-            _logger.Log($"Input device changed to {activeDevice}");
+            Debug.Log($"Input device changed to {activeDevice}");
             _eventBus.Publish(new InputDeviceChangedEvent() { inputDeviceType = activeDevice });
         }
     }

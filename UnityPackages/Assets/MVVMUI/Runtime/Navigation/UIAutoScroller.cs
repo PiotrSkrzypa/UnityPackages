@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace PSkrzypa.MVVMUI.Navigation
 {
+    /// <summary>
+    /// Component that automatically scrolls a ScrollRect to ensure the currently selected UI element is visible.
+    /// </summary>
     [RequireComponent(typeof(ScrollRect))]
     public class UIAutoScroller : MonoBehaviour
     {
