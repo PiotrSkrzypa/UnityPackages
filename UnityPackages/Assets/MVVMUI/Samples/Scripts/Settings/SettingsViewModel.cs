@@ -1,5 +1,8 @@
-﻿namespace PSkrzypa.MVVMUI.Samples
+﻿using System;
+
+namespace PSkrzypa.MVVMUI.Samples
 {
+    [Serializable]
     public class SettingsViewModel : BaseViewModel
     {
         SettingsModel model;

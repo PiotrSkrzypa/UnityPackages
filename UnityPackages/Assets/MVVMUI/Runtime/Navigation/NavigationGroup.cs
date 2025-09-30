@@ -6,7 +6,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Zenject;
 
 namespace PSkrzypa.MVVMUI.Navigation
 {
@@ -41,7 +40,7 @@ namespace PSkrzypa.MVVMUI.Navigation
         Stack<bool> rememberedActiveStates;
         bool initialized;
 
-        [Inject] InputDeviceObserver inputDeviceObserver;
+        InputDeviceObserver inputDeviceObserver;
 
         public bool GroupIsActive { get => groupIsActive; }
         public bool TurnOffOtherGroups { get => turnOffOtherGroups; set => turnOffOtherGroups = value; }

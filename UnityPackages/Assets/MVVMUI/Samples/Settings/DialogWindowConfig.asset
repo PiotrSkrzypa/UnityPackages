@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowID: dialogwindowconfig
   canBeClosed: 1
-  allowMultipleInstances: 0
-  initialPoolSize: 1
+  allowMultipleInstances: 1
+  initialPoolSize: 3
   canBeHidden: 1
   isInitialScreen: 0
+  viewModelType:
+    assemblyQualifiedName: PSkrzypa.MVVMUI.Samples.DialogWindowViewModel, MVVMUI.Samples,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  windowPrefab: {fileID: 7994570145057511641, guid: adcf12b3ec4cdad48bb40bd6fb364a07, type: 3}

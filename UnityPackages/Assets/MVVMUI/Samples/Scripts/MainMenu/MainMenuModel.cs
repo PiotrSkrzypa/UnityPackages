@@ -30,14 +30,28 @@
                 confirmText = "Yes",
                 cancelText = "No",
                 confirmAction = () =>
+                menuController.OpenWindow(DialogWindowID, false, new DialogWindowArgs()
                 {
+                    message = "Are you really sure?",
+                    confirmText = "Yes",
+                    cancelText = "No",
+                    confirmAction = () =>
+                    {
 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
+                        UnityEditor.EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
-                },
-                cancelAction = null
+                    },
+                    cancelAction = ()=>
+                    {
+                        menuController.CloseActiveWindow();
+                    }
+                }),
+                cancelAction = () =>
+                {
+                    menuController.CloseActiveWindow();
+                }
             });
 
         }

@@ -21,7 +21,6 @@ namespace PSkrzypa.MVVMUI
         {
             this.menuController = menuController;
             this.menuWindowConfig = menuWindowConfig;
-            Register();
         }
         public virtual void Register()
         {

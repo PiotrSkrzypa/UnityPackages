@@ -44,6 +44,16 @@ namespace PSkrzypa.MVVMUI
         /// </summary>
         public bool isInitialScreen = false;
 
+        /// <summary>
+        /// View model type information. The actual instance is created by the resolver.
+        /// </summary>
+        public SerializedWindowType viewModelType;
+
+        /// <summary>
+        /// Prefab for the window associated with this configuration.
+        /// </summary>
+        public GameObject windowPrefab;
+
 #if UNITY_EDITOR
         /// <summary>
         /// Called whenever this scriptable object is modified. Automatically sets the screenID to the name of the asset.

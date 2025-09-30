@@ -8,29 +8,59 @@ namespace PSkrzypa.MVVMUI
     public class MenuController : IMenuController, IDisposable
     {
 
-        [SerializeField] private Stack<string> _windowsHistory = new Stack<string>();
+        [SerializeField] private Stack<IWindowViewModel> _windowsHistory = new Stack<IWindowViewModel>();
 
-        private Dictionary<string, IWindowViewModel> _windowsDictionary = new Dictionary<string, IWindowViewModel>();
+        private Dictionary<string, IWindowViewModel> _singletonWindows = new Dictionary<string, IWindowViewModel>();
+        private Dictionary<string, ViewPool> _multipleWindows = new Dictionary<string, ViewPool>();
         private IEventBus _eventBus;
+        private WindowFactory _windowFactory;
+        private GameObject _windowsRoot;
 
-        public MenuController(IEventBus eventBus)
+        public MenuController(WindowFactory windowFactory, IEventBus eventBus, GameObject windowsRoot)
         {
+            _windowFactory = windowFactory;
             _eventBus = eventBus;
+            _windowsRoot = windowsRoot;
         }
 
+        public void RegisterWindows(IEnumerable<MenuWindowConfig> configs)
+        {
+            configs.ForEach(config =>
+            {
+                if (!config.allowMultipleInstances)
+                {
+                    if (!_singletonWindows.ContainsKey(config.windowID))
+                    {
+                        var (vm, view) = _windowFactory.Create(config, _windowsRoot);
+
+                        _singletonWindows[config.windowID] = vm;
+                    }
+                }
+                else
+                {
+                    if (!_multipleWindows.ContainsKey(config.windowID))
+                    {
+                        var viewPool = new ViewPool(_windowFactory, config, _windowsRoot);
+                        _multipleWindows[config.windowID] = viewPool;
+                    }
+                }
+            });
+        }
         public void Dispose()
         {
             CloseAllWindows();
-            _windowsDictionary.Clear();
+            _singletonWindows.Clear();
             _windowsHistory.Clear();
         }
 
         public void RegisterWindow(IWindowViewModel windowViewModel)
         {
-            if (!_windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
+            if (windowViewModel.MenuWindowConfig.allowMultipleInstances)
             {
-                // TODO give window unique ID
-                _windowsDictionary.Add(windowViewModel.MenuWindowConfig.windowID, windowViewModel);
+
+            }
+            if (_singletonWindows.TryAdd(windowViewModel.MenuWindowConfig.windowID, windowViewModel))
+            {
                 return;
             }
             else
@@ -42,11 +72,7 @@ namespace PSkrzypa.MVVMUI
 
         public void DeregisterWindow(IWindowViewModel windowViewModel)
         {
-            if (_windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
-            {
-                _windowsDictionary.Remove(windowViewModel.MenuWindowConfig.windowID);
-            }
-            else
+            if (!_singletonWindows.Remove(windowViewModel.MenuWindowConfig.windowID))
             {
                 Debug.LogWarning($"Failed removing {windowViewModel.MenuWindowConfig.windowID} from Windows Dictionary, it doesn't contain window of type {windowViewModel.MenuWindowConfig}");
             }
@@ -63,24 +89,37 @@ namespace PSkrzypa.MVVMUI
                 OpenWindowAdditive(windowID, windowArgs);
             }
         }
-
-        public void CloseWindow(string windowID)
+        public void CloseActiveWindow()
         {
             if (_windowsHistory.Count == 0)
             {
                 return;
             }
-            string windowType = _windowsHistory.Peek();
-            if (!_windowsDictionary.ContainsKey(windowType))
-            {
-                Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't deactivate the menu!");
-                return;
-            }
-            IWindowViewModel windowToClose = _windowsDictionary[windowType];
-            if (windowToClose.MenuWindowConfig.windowID != windowID)
+            IWindowViewModel windowToClose = _windowsHistory.Pop();
+            if (windowToClose.MenuWindowConfig.isInitialScreen || !windowToClose.MenuWindowConfig.canBeClosed)
             {
                 return;
             }
+            windowToClose.CloseWindow();
+            if(windowToClose.MenuWindowConfig.allowMultipleInstances && _multipleWindows.TryGetValue(windowToClose.MenuWindowConfig.windowID, out ViewPool viewPool))
+            {
+                viewPool.Release(windowToClose);
+            }
+            FocusCurrentWindow();
+        }
+        public void CloseWindow(IWindowViewModel windowVM)
+        {
+            if (_windowsHistory.Count == 0)
+            {
+                return;
+            }
+            IWindowViewModel activeWindow = _windowsHistory.Peek();
+            if (activeWindow != windowVM)
+            {
+                Debug.LogWarning($"Trying to close active window from other window");
+                return;
+            }
+            IWindowViewModel windowToClose = windowVM;
             if (windowToClose.MenuWindowConfig.isInitialScreen || !windowToClose.MenuWindowConfig.canBeClosed)
             {
                 return;
@@ -94,39 +133,38 @@ namespace PSkrzypa.MVVMUI
         {
             while (_windowsHistory.Count > 0)
             {
-                string windowName = _windowsHistory.Pop();
-                if (_windowsDictionary.TryGetValue(windowName, out IWindowViewModel windowViewModel))
-                {
-                    windowViewModel.CloseWindow();
-                }
+                IWindowViewModel windowVM = _windowsHistory.Pop();
+                windowVM.CloseWindow();
             }
             _windowsHistory.Clear();
         }
 
         void OpenWindowAdditive(string windowType, IWindowArgs windowArgs)
         {
-            if (!_windowsDictionary.ContainsKey(windowType))
+            if (!_singletonWindows.ContainsKey(windowType) && !_multipleWindows.ContainsKey(windowType))
             {
                 Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
                 return;
             }
             UnfocusCurrentWindow();
-            IWindowViewModel windowToOpen = _windowsDictionary[windowType];
-            windowToOpen.OpenWindow(windowArgs);
-            _windowsHistory.Push(windowType);
+            if (_singletonWindows.TryGetValue(windowType, out IWindowViewModel singletonWindow))
+            {
+                singletonWindow.OpenWindow(windowArgs);
+                _windowsHistory.Push(singletonWindow);
+                return;
+            }
+            if (_multipleWindows.TryGetValue(windowType, out ViewPool viewPool))
+            {
+                IWindowViewModel windowInstance = viewPool.Get().GetBoundViewModel();
+                windowInstance.OpenWindow(windowArgs);
+                _windowsHistory.Push(windowInstance);
+                return;
+            }
         }
 
         void OpenWindowExclusive(string windowType, IWindowArgs windowArgs)
         {
-            if (!_windowsDictionary.ContainsKey(windowType))
-            {
-                Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
-                return;
-            }
-            UnfocusCurrentWindow();
-            IWindowViewModel windowToOpen = _windowsDictionary[windowType];
-            windowToOpen.OpenWindow(windowArgs);
-            _windowsHistory.Push(windowType);
+            OpenWindowAdditive(windowType, windowArgs);
         }
 
         void FocusCurrentWindow()
@@ -135,11 +173,8 @@ namespace PSkrzypa.MVVMUI
             {
                 return;
             }
-            string windowType = _windowsHistory.Peek();
-            if (_windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
-            {
-                windowToUnfocus.GainFocus();
-            }
+            IWindowViewModel windowToFocus = _windowsHistory.Peek();
+            windowToFocus.GainFocus();
         }
 
         void UnfocusCurrentWindow()
@@ -148,11 +183,8 @@ namespace PSkrzypa.MVVMUI
             {
                 return;
             }
-            string windowType = _windowsHistory.Peek();
-            if (_windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
-            {
-                windowToUnfocus.LooseFocus();
-            }
+            IWindowViewModel windowToUnfocus = _windowsHistory.Peek();
+            windowToUnfocus.LooseFocus();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace PSkrzypa.MVVMUI.Samples
 
         protected override void OnViewModelBind()
         {
+            base.OnViewModelBind();
             var d = Disposable.CreateBuilder();
             viewModel.ProgressExists.Subscribe(x => continueButton.interactable = x).AddTo(ref d);
             newGameButton.OnClickAsObservable().Subscribe(_ => viewModel.StartNewGame.Execute(Unit.Default)).AddTo(ref d);

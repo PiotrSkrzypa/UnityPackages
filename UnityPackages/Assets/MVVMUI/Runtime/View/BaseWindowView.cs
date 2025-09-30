@@ -1,16 +1,16 @@
 ﻿using System;
 using R3;
 using UnityEngine;
-using Zenject;
-using PSkrzypa.UnityFX;
-using PSkrzypa.MVVMUI.Input;
 using UnityEngine.Events;
 using Alchemy.Inspector;
+using PSkrzypa.UnityFX;
+using PSkrzypa.MVVMUI.Input;
+
 namespace PSkrzypa.MVVMUI
 {
     [RequireComponent(typeof(Canvas), typeof(CanvasGroup), typeof(RectTransform))]
     [RequireComponent(typeof(ActionMap))]
-    public abstract class BaseWindowView<T> : MonoBehaviour, IWindowView where T : BaseViewModel
+    public abstract class BaseWindowView<T> : MonoBehaviour, IWindowView<T> where T : BaseViewModel
     {
         [FoldoutGroup("Open Animation")][SerializeField]protected FXSequence openAnimation;
         [FoldoutGroup("Close Animation")][SerializeField]protected FXSequence closeAnimation;
@@ -24,9 +24,14 @@ namespace PSkrzypa.MVVMUI
 
         IDisposable disposable;
 
-        [Inject]
-        void BindViewModel(T viewModel)
+
+        public void BindViewModel(T viewModel)
         {
+            if(this.viewModel == viewModel)
+            {
+                Debug.LogWarning($"ViewModel {viewModel.GetType().Name} is already bound to {GetType().Name}");
+                return;
+            }
             this.viewModel = viewModel;
             var d = Disposable.CreateBuilder();
             viewModel.openCommand.Subscribe(_ => OpenView()).AddTo(ref d);
@@ -35,6 +40,10 @@ namespace PSkrzypa.MVVMUI
             OnViewModelBind();
         }
 
+        public IWindowViewModel GetBoundViewModel()
+        {
+            return viewModel;
+        }
         void Awake()
         {
             windowCanvas = GetComponent<Canvas>();
@@ -44,12 +53,6 @@ namespace PSkrzypa.MVVMUI
             rectTransform = GetComponent<RectTransform>();
             actionMap = GetComponent<ActionMap>();
             actionMap.enabled = false;
-            var d = viewModel.HasFocus.Subscribe(hasFocus => actionMap.enabled = hasFocus);
-            disposable = Disposable.Combine(disposable, d);
-            if (viewModel.MenuWindowConfig.isInitialScreen)
-            {
-                viewModel.OpenWindow();
-            }
         }
 
         void OnDestroy()
@@ -60,6 +63,12 @@ namespace PSkrzypa.MVVMUI
 
         protected virtual void OnViewModelBind()
         {
+            var d = viewModel.HasFocus.Subscribe(hasFocus => actionMap.enabled = hasFocus);
+            disposable = Disposable.Combine(disposable, d);
+            if (viewModel.MenuWindowConfig.isInitialScreen)
+            {
+                viewModel.OpenWindow();
+            }
         }
 
         protected virtual void OnDispose()
@@ -127,5 +136,6 @@ namespace PSkrzypa.MVVMUI
                 actionMap.enabled = value;
             }
         }
+
     }
 }

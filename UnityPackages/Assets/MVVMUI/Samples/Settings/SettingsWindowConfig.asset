@@ -18,3 +18,7 @@ MonoBehaviour:
   initialPoolSize: 1
   canBeHidden: 1
   isInitialScreen: 0
+  viewModelType:
+    assemblyQualifiedName: PSkrzypa.MVVMUI.Samples.SettingsViewModel, MVVMUI.Samples,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  windowPrefab: {fileID: 7994570145057511641, guid: 857df99ca8fa0d840a259c31f4c17956, type: 3}

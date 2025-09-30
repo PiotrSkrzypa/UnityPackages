@@ -15,6 +15,7 @@ namespace PSkrzypa.MVVMUI.Samples
 
         protected override void OnViewModelBind()
         {
+            base.OnViewModelBind();
             DisposableBuilder d = Disposable.CreateBuilder();
             confirmButton.OnClickAsObservable().Subscribe(_ => viewModel.OnConfirm()).AddTo(ref d);
             cancelButton.OnClickAsObservable().Subscribe(_ => viewModel.OnCancel()).AddTo(ref d);

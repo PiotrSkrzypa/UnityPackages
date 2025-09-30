@@ -13,6 +13,7 @@ namespace PSkrzypa.MVVMUI.Samples
 
         protected override void OnViewModelBind()
         {
+            base.OnViewModelBind();
             var d = Disposable.CreateBuilder();
             returnButton.OnClickAsObservable().Subscribe(_ => viewModel.CloseWindow()).AddTo(ref d);
             disposable = d.Build();

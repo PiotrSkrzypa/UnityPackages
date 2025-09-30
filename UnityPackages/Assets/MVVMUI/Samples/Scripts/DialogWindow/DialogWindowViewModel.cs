@@ -1,8 +1,10 @@
-﻿using R3;
+﻿using System;
+using R3;
 using UnityEngine.Events;
 
 namespace PSkrzypa.MVVMUI.Samples
 {
+    [Serializable]
     public class DialogWindowViewModel : BaseViewModel
     {
         public ReactiveProperty<string> message = new ReactiveProperty<string>();
@@ -36,12 +38,10 @@ namespace PSkrzypa.MVVMUI.Samples
         public void OnConfirm()
         {
             confirmAction?.Invoke();
-            CloseWindow();
         }
         public void OnCancel()
         {
             cancelAction?.Invoke();
-            CloseWindow();
         }
     }
 }

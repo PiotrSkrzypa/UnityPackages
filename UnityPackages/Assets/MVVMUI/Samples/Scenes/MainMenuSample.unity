@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b39592fb35df4d4cbfdca2ab818d58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windowsRoot: {fileID: 702659610}
   mainMenuConfig: {fileID: 11400000, guid: 362a7bf1c8b65e54489c0cec04863844, type: 2}
   settingsMenuConfig: {fileID: 11400000, guid: ac4b6833107b6004187770fc4fcaf520, type: 2}
   dialogWindowConfig: {fileID: 11400000, guid: 582ebce67ee96a84faf5b63e697b11b7, type: 2}

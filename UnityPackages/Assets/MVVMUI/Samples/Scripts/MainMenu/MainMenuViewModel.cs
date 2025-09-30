@@ -3,6 +3,7 @@ using System;
 
 namespace PSkrzypa.MVVMUI.Samples
 {
+    [Serializable]
     public class MainMenuViewModel : BaseViewModel
     {
         public ReactiveProperty<bool> ProgressExists;
