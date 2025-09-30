@@ -1,5 +1,4 @@
 ﻿using System;
-using PSkrzypa.MVVMUI.BaseMenuWindow;
 using R3;
 using UnityEngine;
 using UnityEngine.UI;

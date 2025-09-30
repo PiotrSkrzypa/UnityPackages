@@ -1,7 +1,4 @@
-﻿using PSkrzypa.EventBus;
-using PSkrzypa.MVVMUI.BaseMenuWindow;
-using R3;
-using UnityEngine;
+﻿using R3;
 using UnityEngine.Events;
 
 namespace PSkrzypa.MVVMUI.Samples

@@ -1,4 +1,4 @@
-﻿using PSkrzypa.MVVMUI.BaseMenuWindow;
+﻿using PSkrzypa.MVVMUI;
 using UnityEngine;
 using Zenject;
 

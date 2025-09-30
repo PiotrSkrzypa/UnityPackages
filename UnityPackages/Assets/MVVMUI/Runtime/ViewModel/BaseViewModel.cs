@@ -1,8 +1,7 @@
 ﻿using System;
-using PSkrzypa.EventBus;
 using R3;
 
-namespace PSkrzypa.MVVMUI.BaseMenuWindow
+namespace PSkrzypa.MVVMUI
 {
     public abstract class BaseViewModel : IWindowViewModel, IDisposable
     {

@@ -1,53 +1,54 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using System;
 using PSkrzypa.EventBus;
-using PSkrzypa.MVVMUI.BaseMenuWindow;
 
 namespace PSkrzypa.MVVMUI
 {
     public class MenuController : IMenuController, IDisposable
     {
 
-        Dictionary<string, IWindowViewModel> windowsDictionary = new Dictionary<string, IWindowViewModel>();
+        [SerializeField] private Stack<string> _windowsHistory = new Stack<string>();
 
-        [SerializeField] Stack<string> windowsHistory = new Stack<string>();
-
-        IEventBus _eventBus;
+        private Dictionary<string, IWindowViewModel> _windowsDictionary = new Dictionary<string, IWindowViewModel>();
+        private IEventBus _eventBus;
 
         public MenuController(IEventBus eventBus)
         {
             _eventBus = eventBus;
         }
-      
+
         public void Dispose()
         {
+            CloseAllWindows();
+            _windowsDictionary.Clear();
+            _windowsHistory.Clear();
         }
 
-        public (bool, string) RegisterWindow(IWindowViewModel windowViewModel)
+        public void RegisterWindow(IWindowViewModel windowViewModel)
         {
-            if (!windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
+            if (!_windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
             {
                 // TODO give window unique ID
-                windowsDictionary.Add(windowViewModel.MenuWindowConfig.windowID, windowViewModel);
-                return (true, windowViewModel.MenuWindowConfig.windowID);
+                _windowsDictionary.Add(windowViewModel.MenuWindowConfig.windowID, windowViewModel);
+                return;
             }
             else
             {
-                //Debug.LogWarning($"Failed adding {menuWindowController.name} to Windows Dictionary, already contains window of type {menuWindowController.WindowType}");
-                return (false, string.Empty);
+                Debug.LogWarning($"Failed adding {windowViewModel.MenuWindowConfig.windowID} to Windows Dictionary, already contains window of type {windowViewModel.MenuWindowConfig}");
+                return;
             }
         }
 
         public void DeregisterWindow(IWindowViewModel windowViewModel)
         {
-            if (windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
+            if (_windowsDictionary.ContainsKey(windowViewModel.MenuWindowConfig.windowID))
             {
-                windowsDictionary.Remove(windowViewModel.MenuWindowConfig.windowID);
+                _windowsDictionary.Remove(windowViewModel.MenuWindowConfig.windowID);
             }
             else
             {
-                //Debug.LogWarning($"Failed removing {menuWindowController.name} from Windows Dictionary, it doesn't contain window of type {menuWindowController.WindowType}");
+                Debug.LogWarning($"Failed removing {windowViewModel.MenuWindowConfig.windowID} from Windows Dictionary, it doesn't contain window of type {windowViewModel.MenuWindowConfig}");
             }
         }
 
@@ -65,17 +66,17 @@ namespace PSkrzypa.MVVMUI
 
         public void CloseWindow(string windowID)
         {
-            if (windowsHistory.Count == 0)
+            if (_windowsHistory.Count == 0)
             {
                 return;
             }
-            string windowType = windowsHistory.Peek();
-            if (!windowsDictionary.ContainsKey(windowType))
+            string windowType = _windowsHistory.Peek();
+            if (!_windowsDictionary.ContainsKey(windowType))
             {
-                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't deactivate the menu!");
+                Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't deactivate the menu!");
                 return;
             }
-            IWindowViewModel windowToClose = windowsDictionary[windowType];
+            IWindowViewModel windowToClose = _windowsDictionary[windowType];
             if (windowToClose.MenuWindowConfig.windowID != windowID)
             {
                 return;
@@ -84,58 +85,58 @@ namespace PSkrzypa.MVVMUI
             {
                 return;
             }
-            windowsHistory.Pop();
+            _windowsHistory.Pop();
             windowToClose.CloseWindow();
             FocusCurrentWindow();
         }
 
         public void CloseAllWindows()
         {
-            while (windowsHistory.Count > 0)
+            while (_windowsHistory.Count > 0)
             {
-                string windowName = windowsHistory.Pop();
-                if (windowsDictionary.TryGetValue(windowName, out IWindowViewModel windowViewModel))
+                string windowName = _windowsHistory.Pop();
+                if (_windowsDictionary.TryGetValue(windowName, out IWindowViewModel windowViewModel))
                 {
                     windowViewModel.CloseWindow();
                 }
             }
-            windowsHistory.Clear();
+            _windowsHistory.Clear();
         }
 
         void OpenWindowAdditive(string windowType, IWindowArgs windowArgs)
         {
-            if (!windowsDictionary.ContainsKey(windowType))
+            if (!_windowsDictionary.ContainsKey(windowType))
             {
-                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
+                Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
                 return;
             }
             UnfocusCurrentWindow();
-            IWindowViewModel windowToOpen = windowsDictionary[windowType];
+            IWindowViewModel windowToOpen = _windowsDictionary[windowType];
             windowToOpen.OpenWindow(windowArgs);
-            windowsHistory.Push(windowType);
+            _windowsHistory.Push(windowType);
         }
 
         void OpenWindowExclusive(string windowType, IWindowArgs windowArgs)
         {
-            if (!windowsDictionary.ContainsKey(windowType))
+            if (!_windowsDictionary.ContainsKey(windowType))
             {
-                //Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
+                Debug.LogWarning($"The key <b>{windowType}</b> doesn't exist so you can't activate the menu!");
                 return;
             }
             UnfocusCurrentWindow();
-            IWindowViewModel windowToOpen = windowsDictionary[windowType];
+            IWindowViewModel windowToOpen = _windowsDictionary[windowType];
             windowToOpen.OpenWindow(windowArgs);
-            windowsHistory.Push(windowType);
+            _windowsHistory.Push(windowType);
         }
 
         void FocusCurrentWindow()
         {
-            if (windowsHistory.Count <= 0)
+            if (_windowsHistory.Count <= 0)
             {
                 return;
             }
-            string windowType = windowsHistory.Peek();
-            if (windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
+            string windowType = _windowsHistory.Peek();
+            if (_windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
             {
                 windowToUnfocus.GainFocus();
             }
@@ -143,12 +144,12 @@ namespace PSkrzypa.MVVMUI
 
         void UnfocusCurrentWindow()
         {
-            if (windowsHistory.Count <= 0)
+            if (_windowsHistory.Count <= 0)
             {
                 return;
             }
-            string windowType = windowsHistory.Peek();
-            if (windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
+            string windowType = _windowsHistory.Peek();
+            if (_windowsDictionary.TryGetValue(windowType, out IWindowViewModel windowToUnfocus))
             {
                 windowToUnfocus.LooseFocus();
             }

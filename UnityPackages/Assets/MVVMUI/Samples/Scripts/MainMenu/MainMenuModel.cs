@@ -1,6 +1,4 @@
-﻿using PSkrzypa.MVVMUI.BaseMenuWindow;
-
-namespace PSkrzypa.MVVMUI.Samples
+﻿namespace PSkrzypa.MVVMUI.Samples
 {
     public class MainMenuModel : IWindowModel
     {

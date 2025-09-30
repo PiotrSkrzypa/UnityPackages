@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9dc57a8def21c4ab1babbb0bda0bbe, type: 3}
+  m_Script: {fileID: 11500000, guid: 82690bbdedf08804b84aa4de67e304ff, type: 3}
   m_Name: DialogWindowConfig
   m_EditorClassIdentifier: 
   windowID: dialogwindowconfig
   canBeClosed: 1
-  allowMultipleInstances: 1
-  initialPoolSize: 3
+  allowMultipleInstances: 0
+  initialPoolSize: 1
   canBeHidden: 1
   isInitialScreen: 0

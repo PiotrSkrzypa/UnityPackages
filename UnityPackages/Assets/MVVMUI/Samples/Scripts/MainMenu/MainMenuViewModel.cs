@@ -1,6 +1,5 @@
 ﻿using R3;
 using System;
-using PSkrzypa.MVVMUI.BaseMenuWindow;
 
 namespace PSkrzypa.MVVMUI.Samples
 {

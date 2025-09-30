@@ -1,5 +1,4 @@
-﻿using PSkrzypa.MVVMUI.BaseMenuWindow;
-using Zenject;
+﻿using Zenject;
 
 namespace PSkrzypa.MVVMUI
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using PSkrzypa.MVVMUI.BaseMenuWindow;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.Events;

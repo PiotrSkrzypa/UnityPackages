@@ -1,4 +1,4 @@
-﻿namespace PSkrzypa.MVVMUI.BaseMenuWindow
+﻿namespace PSkrzypa.MVVMUI
 {
     public interface IWindowViewModel
     {

@@ -6,7 +6,7 @@ using PSkrzypa.UnityFX;
 using PSkrzypa.MVVMUI.Input;
 using UnityEngine.Events;
 using Alchemy.Inspector;
-namespace PSkrzypa.MVVMUI.BaseMenuWindow
+namespace PSkrzypa.MVVMUI
 {
     [RequireComponent(typeof(Canvas), typeof(CanvasGroup), typeof(RectTransform))]
     [RequireComponent(typeof(ActionMap))]

@@ -5,7 +5,7 @@ using Alchemy.Inspector;
 using UnityEditor;
 #endif
 
-namespace PSkrzypa.MVVMUI.BaseMenuWindow
+namespace PSkrzypa.MVVMUI
 {
     /// <summary>
     /// ScriptableObject that defines the configuration for a UI screen.
