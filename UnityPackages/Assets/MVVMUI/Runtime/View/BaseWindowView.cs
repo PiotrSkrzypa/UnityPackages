@@ -15,6 +15,8 @@ namespace PSkrzypa.MVVMUI
         [FoldoutGroup("Open Animation")][SerializeField]protected FXSequence openAnimation;
         [FoldoutGroup("Close Animation")][SerializeField]protected FXSequence closeAnimation;
 
+        public GameObject ViewGameObject => gameObject;
+
         protected T viewModel;
         Canvas windowCanvas;
         CanvasGroup windowCanvasGroup;
@@ -27,9 +29,11 @@ namespace PSkrzypa.MVVMUI
 
         public void BindViewModel(T viewModel)
         {
-            if(this.viewModel == viewModel)
+            if(this.viewModel != null)
             {
-                Debug.LogWarning($"ViewModel {viewModel.GetType().Name} is already bound to {GetType().Name}");
+                disposable?.Dispose();
+                OnDispose();
+                Debug.LogWarning($"View {gameObject.name} has already bound view model, DISPOSING before binding new one");
                 return;
             }
             this.viewModel = viewModel;
@@ -137,5 +141,11 @@ namespace PSkrzypa.MVVMUI
             }
         }
 
+        public void DestroyView()
+        {
+            disposable?.Dispose();
+            OnDispose();
+            Destroy(gameObject);
+        }
     }
 }

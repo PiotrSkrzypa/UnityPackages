@@ -31,7 +31,7 @@ namespace PSkrzypa.MVVMUI
                 {
                     if (!_singletonWindows.ContainsKey(config.windowID))
                     {
-                        var (vm, view) = _windowFactory.Create(config, _windowsRoot);
+                        var (vm, view) = _windowFactory.CreateOrFind(config, _windowsRoot);
 
                         _singletonWindows[config.windowID] = vm;
                     }
