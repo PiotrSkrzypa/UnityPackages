@@ -275,7 +275,6 @@ GameObject:
   m_Component:
   - component: {fileID: 702659613}
   - component: {fileID: 702659611}
-  - component: {fileID: 702659612}
   m_Layer: 0
   m_Name: UIRoot
   m_TagString: Untagged
@@ -299,18 +298,6 @@ MonoBehaviour:
   mainMenuConfig: {fileID: 11400000, guid: 362a7bf1c8b65e54489c0cec04863844, type: 2}
   settingsMenuConfig: {fileID: 11400000, guid: ac4b6833107b6004187770fc4fcaf520, type: 2}
   dialogWindowConfig: {fileID: 11400000, guid: 582ebce67ee96a84faf5b63e697b11b7, type: 2}
---- !u!114 &702659612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702659610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032efbe60b0d31344875cccc56b4a38b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &702659613
 Transform:
   m_ObjectHideFlags: 0
