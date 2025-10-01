@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using PSkrzypa.MVVMUI.Input;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using PSkrzypa.MVVMUI.Input;
 
 namespace PSkrzypa.MVVMUI.Navigation
 {
